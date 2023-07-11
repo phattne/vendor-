@@ -93,13 +93,17 @@ class _ProductPageState extends State<ProductPage> {
                                   Row(
                                     children: [
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _update();
+                                          },
                                           icon: Icon(
                                             Icons.pending,
                                             size: 30,
                                           )),
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            _delete(documentSnapshot.id);
+                                          },
                                           icon: Icon(
                                             Icons.delete,
                                             size: 30,
@@ -144,6 +148,14 @@ class _ProductPageState extends State<ProductPage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Center(
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    child: Icon(Icons.add_a_photo),
+                  ),
+                ),
+                ElevatedButton(onPressed: () {}, child: Text('chose Image')),
                 TextField(
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Name'),

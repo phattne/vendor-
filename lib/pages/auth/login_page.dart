@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor/helper/helper_function.dart';
+import 'package:vendor/pages/Main_screen.dart';
 import 'package:vendor/pages/auth/register_Page.dart';
 import 'package:vendor/pages/homepage.dart';
 import 'package:vendor/service/auth_service.dart';
@@ -160,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
           await HelperFunctions.saveUserLoggedInStatus(true);
           await HelperFunctions.saveUserEmailSF(email);
           await HelperFunctions.saveUserNameSF(snapshot.docs[0]['fullName']);
-          // nextScreenReplace(context, const HomePage());
+          nextScreenReplace(context, const MainScreen());
         } else {
           showSnackbar(context, Colors.red, value);
           setState(() {

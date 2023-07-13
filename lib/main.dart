@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           primaryColor: Colors.orange, scaffoldBackgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
-      home: MainScreen(),
+      home:  _isSignedIn ? const MainScreen() : const LoginPage(),
     );
   }
 }

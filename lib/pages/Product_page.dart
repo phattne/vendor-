@@ -59,65 +59,67 @@ class _ProductPageState extends State<ProductPage> {
                             String name = documentSnapshot['name'];
                             String price = documentSnapshot['price'].toString();
                             String url = documentSnapshot['imgeUrl'];
-                            return Card(
-                              margin: const EdgeInsets.all(10),
-                              color: Colors.grey[300],
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 100,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Image.network(url!),
-                                    ),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Name:" + " " + name,
-                                        style: Appstyle(
-                                            Colors.black, 20, FontWeight.w600),
+                            return SingleChildScrollView(
+                              child: Card(
+                                margin: const EdgeInsets.all(10),
+                                color: Colors.grey[300],
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 100,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.network(url!),
                                       ),
-                                      Text(
-                                        price,
-                                        style: Appstyle(
-                                            Colors.black, 30, FontWeight.bold),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            _update();
-                                          },
-                                          icon: Icon(
-                                            Icons.pending,
-                                            size: 30,
-                                          )),
-                                      IconButton(
-                                          onPressed: () {
-                                            _delete(documentSnapshot.id);
-                                          },
-                                          icon: Icon(
-                                            Icons.delete,
-                                            size: 30,
-                                          )),
-                                    ],
-                                  ),
-                                ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Name:" + " " + name,
+                                          style: Appstyle(Colors.black, 20,
+                                              FontWeight.w600),
+                                        ),
+                                        Text(
+                                          price,
+                                          style: Appstyle(Colors.black, 30,
+                                              FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              _update();
+                                            },
+                                            icon: Icon(
+                                              Icons.pending,
+                                              size: 30,
+                                            )),
+                                        IconButton(
+                                            onPressed: () {
+                                              _delete(documentSnapshot.id);
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              size: 30,
+                                            )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           }));
                     }
                     return const Center(
                       child: Center(
-                        child: Text('no product click add product now '),
+                        child: Text('no product click "add product" now '),
                       ),
                     );
                   }),

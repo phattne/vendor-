@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/service/database_service.dart';
 
 class AuthService {
@@ -37,15 +38,15 @@ class AuthService {
     }
   }
 
-//   // signout
-//   Future signOut() async {
-//     try {
-//       await HelperFunctions.saveUserLoggedInStatus(false);
-//       await HelperFunctions.saveUserEmailSF("");
-//       await HelperFunctions.saveUserNameSF("");
-//       await firebaseAuth.signOut();
-//     } catch (e) {
-//       return null;
-//     }
-//   }
+  // signout
+  Future signOut() async {
+    try {
+      await HelperFunctions.saveUserLoggedInStatus(false);
+      await HelperFunctions.saveUserEmailSF("");
+      await HelperFunctions.saveUserNameSF("");
+      await firebaseAuth.signOut();
+    } catch (e) {
+      return null;
+    }
+  }
 }

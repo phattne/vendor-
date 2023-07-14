@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                           )),
                       onChanged: (val) {
                         setState(() {
-                          // email = val;
+                          email = val;
                         });
                       },
 
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       onChanged: (val) {
                         setState(() {
-                          // password = val;
+                          password = val;
                         });
                       },
                     ),
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       onPressed: () {
-                        // login();
+                        login();
                       },
                     ),
                   ),

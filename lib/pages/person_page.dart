@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vendor/service/auth_service.dart';
 import 'package:vendor/share/constants.dart';
 
 class PersonPage extends StatefulWidget {
@@ -9,6 +10,7 @@ class PersonPage extends StatefulWidget {
 }
 
 class _PersonPageState extends State<PersonPage> {
+  AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,12 @@ class _PersonPageState extends State<PersonPage> {
           "Log Out",
           style: Appstyle(Colors.black, 30, FontWeight.w400),
         ),
-        leading: Icon(Icons.exit_to_app),
+        leading: IconButton(
+          onPressed: () {
+            authService.signOut();
+          },
+          icon: Icon(Icons.exit_to_app),
+        ),
       )),
     );
   }

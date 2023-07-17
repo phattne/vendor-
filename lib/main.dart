@@ -5,6 +5,7 @@ import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/pages/add_product_page.dart';
 import 'package:vendor/pages/auth/login_page.dart';
+import 'package:vendor/pages/custumer/produc_page.dart';
 import 'package:vendor/pages/homepage.dart';
 import 'package:vendor/pages/Main_screen.dart';
 import 'package:vendor/provider/controller/main_screenProvider.dart';
@@ -48,9 +49,8 @@ class _MyAppState extends State<MyApp> {
   Widget buidPage() {
     if (_isSignedIn) {
       if (_role == "customer") {
-        return MainScreen();
-      } 
-      else {
+        return product_customer();
+      } else {
         return MainScreen();
       }
     } else {

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/add_product_page.dart';
 import 'package:vendor/share/constants.dart';
 
@@ -15,6 +16,21 @@ class _ProductPageState extends State<ProductPage> {
       FirebaseFirestore.instance.collection('product');
   TextEditingController _nameController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
+  String _role = "";
+
+  void getUserRole() async {
+    final role = await HelperFunctions.getUserRoleFromSF() ?? "";
+    setState(() {
+      _role = role;
+    });
+  }
+
+  @override
+  void initState() {
+    getUserRole();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +42,15 @@ class _ProductPageState extends State<ProductPage> {
           style: Appstyle(Colors.white, 20, FontWeight.bold),
         )),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Addproduct()));
-        },
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: _role == 'customer'
+          ? SizedBox.shrink()
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Addproduct()));
+              },
+              child: Icon(Icons.add),
+            ),
       body: Container(
         height: double.infinity,
         child: Column(
@@ -59,60 +77,82 @@ class _ProductPageState extends State<ProductPage> {
                             String name = documentSnapshot['name'];
                             String price = documentSnapshot['price'].toString();
                             String url = documentSnapshot['imgeUrl'];
+                            String soluong =
+                                documentSnapshot['soluong'].toString();
                             return SingleChildScrollView(
-                              child: Card(
-                                margin: const EdgeInsets.all(10),
-                                color: Colors.grey[300],
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 100,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.network(url!),
-                                      ),
-                                    ),
-                                    Column(
+                              child: Column(
+                                children: [
+                                  Card(
+                                    margin: const EdgeInsets.all(10),
+                                    color: Colors.grey[300],
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          "Name:" + " " + name,
-                                          style: Appstyle(Colors.black, 20,
-                                              FontWeight.w600),
+                                        Container(
+                                          height: 100,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Image.network(url!),
+                                          ),
                                         ),
-                                        Text(
-                                          price,
-                                          style: Appstyle(Colors.black, 30,
-                                              FontWeight.bold),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              name,
+                                              style: Appstyle(Colors.black, 20,
+                                                  FontWeight.w600),
+                                            ),
+                                            Text(
+                                              "SL $soluong",
+                                              style: Appstyle(Colors.red, 12,
+                                                  FontWeight.bold),
+                                            ),
+                                            Text(
+                                              price,
+                                              style: Appstyle(Colors.black, 20,
+                                                  FontWeight.normal),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                              onPressed: _role == "customer"
+                                                  ? _update
+                                                  : null,
+                                              icon: Icon(
+                                                Icons.pending,
+                                                size: 30,
+                                              ),
+                                            ),
+                                            _role == ""
+                                                ? IconButton(
+                                                    onPressed: () {
+                                                      _delete(
+                                                          documentSnapshot.id);
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.delete,
+                                                      size: 30,
+                                                    ))
+                                                : SizedBox.shrink(),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  _role == 'vendor'
+                                      ? ElevatedButton(
+                                          onPressed: () {},
+                                          child: Text('mua ngay'),
                                         )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              _update();
-                                            },
-                                            icon: Icon(
-                                              Icons.pending,
-                                              size: 30,
-                                            )),
-                                        IconButton(
-                                            onPressed: () {
-                                              _delete(documentSnapshot.id);
-                                            },
-                                            icon: Icon(
-                                              Icons.delete,
-                                              size: 30,
-                                            )),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                      : SizedBox.shrink(),
+                                ],
                               ),
                             );
                           }));

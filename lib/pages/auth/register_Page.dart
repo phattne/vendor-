@@ -21,6 +21,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String fullname = "";
   String email = "";
   String password = "";
+  bool isCustomer = false;
+  bool isVendor = false;
   AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
@@ -145,6 +147,28 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                 ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Checkbox(
+                        value: isCustomer,
+                        onChanged: (selected) {
+                          setState(() {
+                            isCustomer = selected ?? false;
+                          });
+                        }),
+                    Text("login as customer"),
+                    Checkbox(
+                        value: isVendor,
+                        onChanged: (selected) {
+                          setState(() {
+                            isVendor = selected ?? false;
+                          });
+                        }),
+                    Text("login as vendor"),
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -171,12 +195,20 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   register() async {
+    String role = "";
+    if (isCustomer) role = "customer";
+    if (isVendor) role = "vendor";
     if (fromkey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
       await authService
-          .registerUserWithEmailandPassword(fullname, email, password)
+          .registerUserWithEmailandPassword(
+        fullname,
+        email,
+        password,
+        role,
+      )
           .then((value) async {
         if (value == true) {
           await HelperFunctions.saveUserLoggedInStatus(true);

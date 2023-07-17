@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Main_screen.dart';
+import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/pages/auth/register_Page.dart';
 import 'package:vendor/pages/homepage.dart';
 import 'package:vendor/service/auth_service.dart';
@@ -161,7 +162,12 @@ class _LoginPageState extends State<LoginPage> {
           await HelperFunctions.saveUserLoggedInStatus(true);
           await HelperFunctions.saveUserEmailSF(email);
           await HelperFunctions.saveUserNameSF(snapshot.docs[0]['fullName']);
-          nextScreenReplace(context, const MainScreen());
+          final role = snapshot.docs[0]['role'];
+          await HelperFunctions.saveUserRoleSF(role);
+          nextScreenReplace(
+              context,
+              // role == "customer" ? ProductPage() :
+              MainScreen());
         } else {
           showSnackbar(context, Colors.red, value);
           setState(() {

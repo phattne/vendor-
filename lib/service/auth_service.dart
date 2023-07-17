@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vendor/helper/helper_function.dart';
+import 'package:vendor/pages/auth/login_page.dart';
 import 'package:vendor/service/database_service.dart';
+import 'package:vendor/widgets/widgets.dart';
 
 class AuthService {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -22,7 +24,7 @@ class AuthService {
 
   // register
   Future registerUserWithEmailandPassword(
-      String fullName, String email, String password) async {
+      String fullName, String email, String password, String role) async {
     try {
       User user = (await firebaseAuth.createUserWithEmailAndPassword(
               email: email, password: password))
@@ -30,7 +32,8 @@ class AuthService {
 
       if (user != null) {
         // call our database service to update the user data.
-        await DatabaseService(uid: user.uid).savingUserData(fullName, email);
+        await DatabaseService(uid: user.uid)
+            .savingUserData(fullName, email, role);
         return true;
       }
     } on FirebaseAuthException catch (e) {

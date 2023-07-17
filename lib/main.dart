@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor/helper/helper_function.dart';
+import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/pages/add_product_page.dart';
 import 'package:vendor/pages/auth/login_page.dart';
 import 'package:vendor/pages/homepage.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _isSignedIn = false;
+  String _role = "";
 
   @override
   void initState() {
@@ -33,13 +35,27 @@ class _MyAppState extends State<MyApp> {
   }
 
   getUserLoggedInStatus() async {
-    await HelperFunctions.getUserLoggedInStatus().then((value) {
-      if (value != null) {
-        setState(() {
-          _isSignedIn = value;
-        });
+    final isLoggedIn = await HelperFunctions.getUserLoggedInStatus();
+    final role = await HelperFunctions.getUserRoleFromSF();
+    if (isLoggedIn == true && role != null) {
+      setState(() {
+        _isSignedIn = isLoggedIn ?? false;
+        _role = role;
+      });
+    }
+  }
+
+  Widget buidPage() {
+    if (_isSignedIn) {
+      if (_role == "customer") {
+        return MainScreen();
+      } 
+      else {
+        return MainScreen();
       }
-    });
+    } else {
+      return LoginPage();
+    }
   }
 
   @override
@@ -48,7 +64,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
           primaryColor: Colors.orange, scaffoldBackgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
-      home:  _isSignedIn ? const MainScreen() : const LoginPage(),
+      home: buidPage(),
     );
   }
 }

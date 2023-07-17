@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor/share/constants.dart';
 
@@ -10,8 +11,8 @@ class OderPage extends StatefulWidget {
 }
 
 class _OderPageState extends State<OderPage> {
-  final CollectionReference nguoidung =
-      FirebaseFirestore.instance.collection('nguoidung');
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection("users");
   String texttitle = "danh sách khách hàng ";
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,9 @@ class _OderPageState extends State<OderPage> {
               color: Colors.grey[300],
             ),
             child: StreamBuilder(
-                stream: nguoidung.snapshots(),
+                stream: userCollection
+                    .where('role', isEqualTo: 'customer')
+                    .snapshots(),
                 builder:
                     (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                   if (streamSnapshot.connectionState ==
@@ -61,9 +64,9 @@ class _OderPageState extends State<OderPage> {
                           final DocumentSnapshot documentSnapshot =
                               streamSnapshot.data!.docs[index];
 
-                          String name = documentSnapshot['name'];
-                          String sdt = documentSnapshot['sdt'].toString();
-                          String address = documentSnapshot['dc'];
+                          String fullName = documentSnapshot['fullName'];
+                          String email = documentSnapshot['email'];
+                          String role = documentSnapshot['role'];
                           return SingleChildScrollView(
                             child: Card(
                               margin: const EdgeInsets.only(
@@ -91,17 +94,17 @@ class _OderPageState extends State<OderPage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        name,
+                                        fullName,
                                         style: Appstyle(
                                             Colors.black, 20, FontWeight.w600),
                                       ),
                                       Text(
-                                        sdt,
+                                        role,
                                         style: Appstyle(
                                             Colors.red, 20, FontWeight.bold),
                                       ),
                                       Text(
-                                        address,
+                                        email,
                                         style: Appstyle(Colors.black, 20,
                                             FontWeight.normal),
                                       )
@@ -112,7 +115,7 @@ class _OderPageState extends State<OderPage> {
                                     children: [
                                       IconButton(
                                           onPressed: () {
-                                            _delete(documentSnapshot.id);
+                                            // _delete(documentSnapshot.id);
                                           },
                                           icon: Icon(
                                             Icons.delete,
@@ -139,7 +142,7 @@ class _OderPageState extends State<OderPage> {
   }
 
   Future<void> _delete(String productId) async {
-    await nguoidung.doc(productId).delete();
+    await userCollection.doc(productId).delete();
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('You have successfully deleted a product')));

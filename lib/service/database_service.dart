@@ -21,11 +21,12 @@ class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // saving the userdata
-  Future savingUserData(String fullName, String email) async {
+  Future savingUserData(String fullName, String email, String role) async {
     return await userCollection.doc(uid).set({
       "fullName": fullName,
       "email": email,
-      "groups": [],
+      "role": role,
+      // "groups": [],
       "profilePic": "",
       "uid": uid,
     });
@@ -35,6 +36,12 @@ class DatabaseService {
   Future gettingUserData(String email) async {
     QuerySnapshot snapshot =
         await userCollection.where("email", isEqualTo: email).get();
+    return snapshot;
+  }
+
+  Future gettingroleData(String role) async {
+    QuerySnapshot snapshot =
+        await userCollection.where("role", isEqualTo: role).get();
     return snapshot;
   }
 

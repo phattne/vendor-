@@ -28,6 +28,7 @@ class _AddproductState extends State<Addproduct> {
   final ImagePicker picker = ImagePicker();
   TextEditingController _nameController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
+  TextEditingController _soluong = TextEditingController();
 
   Future<void> selectFile() async {
     final XFile? pickedImage =
@@ -124,6 +125,13 @@ class _AddproductState extends State<Addproduct> {
               height: 10,
             ),
             getMyField(
+                hintText: "so luong",
+                controller: _soluong,
+                textInputType: TextInputType.number),
+            SizedBox(
+              height: 10,
+            ),
+            getMyField(
                 hintText: "price",
                 controller: _priceController,
                 textInputType: TextInputType.number),
@@ -145,6 +153,7 @@ class _AddproductState extends State<Addproduct> {
                     onPressed: () {
                       _nameController.text = "";
                       _priceController.text = "";
+                      _soluong.text = "";
                       url = null;
                     },
                     child: Text(
@@ -167,10 +176,12 @@ class _AddproductState extends State<Addproduct> {
     try {
       String name = _nameController.text.trim();
       double? price = double.tryParse(_priceController.text);
+      int? soluong = int.tryParse(_soluong.text);
       if (price != null && url != null) {
         await products.add({
           "name": name,
           "price": price,
+          "soluong": soluong,
           "imgeUrl": url,
         });
       } else {

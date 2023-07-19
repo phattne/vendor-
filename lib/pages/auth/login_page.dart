@@ -165,9 +165,7 @@ class _LoginPageState extends State<LoginPage> {
           final role = snapshot.docs[0]['role'];
           await HelperFunctions.saveUserRoleSF(role);
           nextScreenReplace(
-              context,
-              // role == "customer" ? ProductPage() :
-              MainScreen());
+              context, role == "customer" ? ProductPage() : MainScreen());
         } else {
           showSnackbar(context, Colors.red, value);
           setState(() {

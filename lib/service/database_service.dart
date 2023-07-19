@@ -26,7 +26,7 @@ class DatabaseService {
       "fullName": fullName,
       "email": email,
       "role": role,
-      // "groups": [],
+      // "groups": [], 
       "profilePic": "",
       "uid": uid,
     });

@@ -1,4 +1,8 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+
+import '../model/product_model.dart';
 
 const textInputDecoration = InputDecoration(
   labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),
@@ -38,3 +42,6 @@ void showSnackbar(context, color, message) {
     ),
   );
 }
+
+
+   

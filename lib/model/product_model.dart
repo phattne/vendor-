@@ -1,19 +1,14 @@
-// To parse this JSON data, do
-//
-//     final student = studentFromJson(jsonString);
-
-class Product {
-  Product({
+class Productmedol {
+  Productmedol({
+    required this.imageUrl,
     required this.price,
-    this.id,
-    required this.rollno,
+    required this.soluong,
     required this.name,
     
   });
 
-  String? id;
-  final int rollno;
+  final String imageUrl;
   final String name;
-  final num price;
-
+  final double price;
+  final double soluong;
 }

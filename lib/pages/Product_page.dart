@@ -4,6 +4,8 @@ import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/add_product_page.dart';
 import 'package:vendor/share/constants.dart';
 
+import '../model/product_model.dart';
+
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
 
@@ -12,7 +14,7 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
-  final CollectionReference products =
+  final CollectionReference productcollection =
       FirebaseFirestore.instance.collection('product');
   TextEditingController _nameController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
@@ -42,15 +44,13 @@ class _ProductPageState extends State<ProductPage> {
           style: Appstyle(Colors.white, 20, FontWeight.bold),
         )),
       ),
-      floatingActionButton: _role == 'customer'
-          ? SizedBox.shrink()
-          : FloatingActionButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Addproduct()));
-              },
-              child: Icon(Icons.add),
-            ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Addproduct()));
+        },
+        child: Icon(Icons.add),
+      ),
       body: Container(
         height: double.infinity,
         child: Column(
@@ -58,7 +58,7 @@ class _ProductPageState extends State<ProductPage> {
           children: [
             Expanded(
               child: StreamBuilder(
-                  stream: products.snapshots(),
+                  stream: productcollection.snapshots(),
                   builder:
                       (context, AsyncSnapshot<QuerySnapshot> streamSnapshot) {
                     if (streamSnapshot.connectionState ==
@@ -68,6 +68,8 @@ class _ProductPageState extends State<ProductPage> {
                       );
                     }
                     if (streamSnapshot.hasData) {
+                     
+
                       return ListView.builder(
                           itemCount: streamSnapshot.data!.docs.length,
                           itemBuilder: ((context, index) {
@@ -220,7 +222,7 @@ class _ProductPageState extends State<ProductPage> {
                     final double? price =
                         double.tryParse(_priceController.text);
                     if (price != null) {
-                      await products
+                      await productcollection
                           .doc(documentSnapshot!.id)
                           .update({"name": name, "price": price});
                       _nameController.text = '';
@@ -236,7 +238,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future<void> _delete(String productId) async {
-    await products.doc(productId).delete();
+    await productcollection.doc(productId).delete();
 
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('You have successfully deleted a product')));

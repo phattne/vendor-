@@ -23,7 +23,7 @@ class _AddproductState extends State<Addproduct> {
   XFile? imageFile;
   String btupdate = " update";
   String Btreset = " Reset";
-  final CollectionReference products =
+  final CollectionReference productcollection =
       FirebaseFirestore.instance.collection('product');
   final ImagePicker picker = ImagePicker();
   TextEditingController _nameController = TextEditingController();
@@ -178,7 +178,7 @@ class _AddproductState extends State<Addproduct> {
       double? price = double.tryParse(_priceController.text);
       int? soluong = int.tryParse(_soluong.text);
       if (price != null && url != null) {
-        await products.add({
+        await productcollection.add({
           "name": name,
           "price": price,
           "soluong": soluong,

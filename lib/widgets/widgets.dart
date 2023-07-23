@@ -1,4 +1,4 @@
-import 'dart:js';
+import 'package:js/js.dart';
 
 import 'package:flutter/material.dart';
 
@@ -42,6 +42,3 @@ void showSnackbar(context, color, message) {
     ),
   );
 }
-
-
-   

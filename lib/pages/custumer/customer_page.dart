@@ -1,4 +1,4 @@
-import 'dart:js';
+import 'package:js/js.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -195,5 +195,4 @@ class _ProductPage extends StatelessWidget {
       ),
     );
   }
- 
 }

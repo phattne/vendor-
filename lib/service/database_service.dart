@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+
+import '../model/product_model.dart';
 
 class DatabaseService {
   final TextEditingController _nameController = TextEditingController();
@@ -26,7 +29,7 @@ class DatabaseService {
       "fullName": fullName,
       "email": email,
       "role": role,
-      // "groups": [], 
+      // "groups": [],
       "profilePic": "",
       "uid": uid,
     });
@@ -57,5 +60,47 @@ class DatabaseService {
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
+  }
+}
+
+class OrderService {
+  // Hàm đặt hàng
+  static void placeOrder(List<Productmedol> items, BuildContext context) async {
+    // Lưu thông tin đơn hàng vào Firestore với uid của người đặt hàng
+    User? user = FirebaseAuth.instance.currentUser;
+    String customerId =
+        user?.uid ?? "unknown_user"; // Nếu không có user thì gán "unknown_user"
+    CollectionReference orderCollection =
+        FirebaseFirestore.instance.collection('order');
+
+    for (var productmodel in items) {
+      await orderCollection.add({
+        'customerId': customerId,
+        'productname':
+            productmodel.name, // Thêm id sản phẩm vào model nếu chưa có
+        'quantity': productmodel.quantity,
+        'price': productmodel.price,
+        'status': 'pending', // Trạng thái đơn hàng (đang chờ xử lý)
+      });
+    }
+
+    // Xóa các sản phẩm trong giỏ hàng sau khi đã đặt hàng
+    items.clear();
+
+    // Hiển thị thông báo thành công
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Đặt hàng thành công'),
+        content: Text(
+            'Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng của bạn.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 }

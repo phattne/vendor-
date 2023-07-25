@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "397402963169",
+    "firebase_url": "https://login-b92cb-default-rtdb.firebaseio.com",
     "project_id": "login-b92cb",
     "storage_bucket": "login-b92cb.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:397402963169:android:3b2a6d4b3f6152ef25cba0",
+        "mobilesdk_app_id": "1:397402963169:android:bb3bacd9c547094825cba0",
         "android_client_info": {
           "package_name": "com.example.vendor"
         }

@@ -6,9 +6,8 @@ import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/pages/add_product_page.dart';
 import 'package:vendor/pages/auth/login_page.dart';
 import 'package:vendor/pages/custumer/customer_page.dart';
-import 'package:vendor/pages/custumer/produc_page.dart';
 import 'package:vendor/pages/homepage.dart';
-import 'package:vendor/pages/Main_screen.dart';
+import 'package:vendor/pages/Main_page.dart';
 import 'package:vendor/provider/controller/main_screenProvider.dart';
 
 void main() async {

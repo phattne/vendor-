@@ -115,7 +115,7 @@ class _OderPageState extends State<OderPage> {
                                     children: [
                                       IconButton(
                                           onPressed: () {
-                                            // _delete(documentSnapshot.id);
+                                            _delete(documentSnapshot.id);
                                           },
                                           icon: Icon(
                                             Icons.delete,

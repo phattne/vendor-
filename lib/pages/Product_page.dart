@@ -68,8 +68,6 @@ class _ProductPageState extends State<ProductPage> {
                       );
                     }
                     if (streamSnapshot.hasData) {
-                     
-
                       return ListView.builder(
                           itemCount: streamSnapshot.data!.docs.length,
                           itemBuilder: ((context, index) {
@@ -124,25 +122,16 @@ class _ProductPageState extends State<ProductPage> {
                                         Row(
                                           children: [
                                             IconButton(
-                                              onPressed: _role == "customer"
-                                                  ? _update
-                                                  : null,
-                                              icon: Icon(
-                                                Icons.pending,
-                                                size: 30,
-                                              ),
-                                            ),
-                                            _role == ""
-                                                ? IconButton(
-                                                    onPressed: () {
-                                                      _delete(
-                                                          documentSnapshot.id);
-                                                    },
-                                                    icon: Icon(
-                                                      Icons.delete,
-                                                      size: 30,
-                                                    ))
-                                                : SizedBox.shrink(),
+                                                onPressed: () {},
+                                                icon: Icon(Icons.pending)),
+                                            IconButton(
+                                                onPressed: () {
+                                                  _delete(documentSnapshot.id);
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  size: 30,
+                                                ))
                                           ],
                                         ),
                                       ],

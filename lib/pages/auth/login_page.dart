@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor/helper/helper_function.dart';
-import 'package:vendor/pages/Main_screen.dart';
+import 'package:vendor/pages/Main_page.dart';
 import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/pages/auth/register_Page.dart';
 import 'package:vendor/pages/homepage.dart';

@@ -1,10 +1,14 @@
-import 'dart:js';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:vendor/model/product_model.dart';
-import 'package:vendor/pages/custumer/produc_page.dart';
+import 'package:vendor/pages/custumer/person_customer_page.dart';
+import 'package:vendor/pages/custumer/product_custumer_page.dart';
+
 import 'package:vendor/share/constants.dart';
+
+import '../../service/database_service.dart';
 
 class CustomerPage extends StatefulWidget {
   const CustomerPage({super.key});
@@ -16,19 +20,23 @@ class CustomerPage extends StatefulWidget {
 class _CustomerPageState extends State<CustomerPage> {
   List<Productmedol> items = [];
   int _selectedPageIndex = 0;
+  TextEditingController count = TextEditingController();
 
   Widget _buildPage() {
     switch (_selectedPageIndex) {
       case 0:
-        return _ProductPage(
-          onItemSelected: (item) {
+        return CustomerproDuct(
+          onItemSelected: (Productmedol productmedol, int quantity) {
             setState(() {
-              // items = [...items, items];
+              productmedol.quantity = quantity;
+              items.add(productmedol);
             });
           },
         );
       case 1:
         return _CartPage(items);
+      case 2:
+        return PersonCustomerPage();
       default:
         return SizedBox.shrink();
     }
@@ -40,160 +48,162 @@ class _CustomerPageState extends State<CustomerPage> {
       appBar: AppBar(),
       body: _buildPage(),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.red,
         onTap: (index) => setState(() {
           _selectedPageIndex = index;
         }),
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.abc), label: "products"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "products"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_alarm),
-            label: "selected ${items.length}",
+            icon: Icon(Ionicons.cart),
+            label: "Cart ${items.length}",
           ),
+          BottomNavigationBarItem(icon: Icon(Ionicons.person), label: "person")
         ],
       ),
     );
   }
 }
 
-class _CartPage extends StatelessWidget {
+class _CartPage extends StatefulWidget {
   const _CartPage(this.items);
   final List<Productmedol> items;
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        Productmedol productmedol = items[index];
-        return ListTile(
-          leading: Image.network(productmedol.imageUrl),
-          title: Text(productmedol.name),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Price: \$${productmedol.price.toStringAsFixed(2)}'),
-              Text('soluong: ${productmedol.soluong}'),
-            ],
-          ),
-        );
-      },
-    );
-  }
+  State<_CartPage> createState() => _CartPageState();
 }
 
-class _ProductPage extends StatelessWidget {
-  _ProductPage({super.key, required this.onItemSelected});
-  final Function(String) onItemSelected;
-  final CollectionReference productcollection =
-      FirebaseFirestore.instance.collection('product');
+class _CartPageState extends State<_CartPage> {
+  CollectionReference orderCollection =
+      FirebaseFirestore.instance.collection('order');
+
+  void _placeOrder() async {
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      // Hiển thị thông báo yêu cầu đăng nhập
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Yêu cầu đăng nhập'),
+          content: Text('Bạn cần đăng nhập để đặt hàng.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .get();
+    String userName = userSnapshot['fullName'];
+    String userEmail = userSnapshot['email'];
+    for (var productmodel in widget.items) {
+      await orderCollection.add({
+        'customerName': userName,
+        'customerEmail': userEmail,
+        'customerId': user.uid,
+        'productName':
+            productmodel.name, // Thêm id sản phẩm vào model nếu chưa có
+        'quantity': productmodel.quantity,
+        'price': productmodel.price,
+        'status': 'pending', // Trạng thái đơn hàng (đang chờ xử lý)
+      });
+    }
+
+    // Xóa các sản phẩm trong giỏ hàng sau khi đã đặt hàng
+    setState(() {
+      widget.items.clear();
+    });
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Đặt hàng thành công'),
+        content: Text(
+            'Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ xử lý đơn hàng của bạn.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Productmedol> productList = [];
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: Text(
-          'Customer',
-          style: Appstyle(Colors.white, 30, FontWeight.bold),
-        ),
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: productcollection.snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          }
+    double total = 0.0;
+    for (var productmodel in widget.items) {
+      total += productmodel.price * productmodel.quantity;
+    }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          List<Productmedol> productList = [];
-
-          if (snapshot.hasData) {
-            QuerySnapshot querySnapshot = snapshot.data!;
-            productList = querySnapshot.docs.map((doc) {
-              String name = doc['name'];
-              double price = doc['price'].toDouble();
-              String imageUrl = doc['imgeUrl'];
-              double soluong = doc['soluong'].toDouble();
-              return Productmedol(
-                name: name,
-                price: price,
-                imageUrl: imageUrl,
-                soluong: soluong,
-              );
-            }).toList();
-          }
-
-          return ListView(
-            children: [
-              Expanded(
-                child: GridView.count(
-                  padding: const EdgeInsets.all(20),
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: List.generate(productList.length, (index) {
-                    Productmedol productmedol = productList[index];
-                    return Container(
-                      decoration: BoxDecoration(color: Colors.white54),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Center(
-                              child: Image.network(
-                                productmedol.imageUrl,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  productmedol.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  'Price: \$${productmedol.price.toStringAsFixed(2)}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Text(
-                                  'soluong: ${productmedol.soluong}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemCount: widget.items.length,
+            itemBuilder: (context, index) {
+              Productmedol productmedol = widget.items[index];
+              return Column(
+                children: [
+                  ListTile(
+                      leading: Image.network(productmedol.imageUrl),
+                      title: Text(productmedol.name),
+                      subtitle: Text(
+                        '${productmedol.price.toStringAsFixed(2)}',
+                        style: Appstyle(Colors.red, 20, FontWeight.bold),
                       ),
-                    );
-                  }),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+                      trailing: Container(
+                        width: 130,
+                        child: Row(children: [
+                          IconButton(
+                              onPressed: () {
+                                if (productmedol.quantity > 1) {
+                                  setState(() {
+                                    productmedol.quantity--;
+                                  });
+                                }
+                              },
+                              icon: Icon(Icons.remove)),
+                          Text(
+                            '${productmedol.quantity}',
+                            style: Appstyle(Colors.black, 20, FontWeight.bold),
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  productmedol.quantity++;
+                                });
+                              },
+                              icon: Icon(Icons.add_rounded))
+                        ]),
+                      )),
+                ],
+              );
+            },
+          ),
+        ),
+        Container(
+          height: 100,
+          width: double.infinity,
+          decoration: BoxDecoration(color: Colors.grey[300]),
+          child: Center(
+            child: Text('Total: \$${total.toStringAsFixed(2)}'),
+          ),
+        ),
+        ElevatedButton(
+            onPressed: () {
+              _placeOrder();
+            },
+            child: Text('đặt hàng'))
+      ],
     );
   }
- 
 }

@@ -1,45 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:vendor/pages/auth/login_page.dart';
-import 'package:vendor/pages/oders_page.dart';
 import 'package:vendor/service/auth_service.dart';
 import 'package:vendor/share/constants.dart';
-import 'package:vendor/widgets/widgets.dart';
 
-class PersonPage extends StatefulWidget {
-  const PersonPage({super.key});
+class PersonCustomerPage extends StatefulWidget {
+  const PersonCustomerPage({super.key});
 
   @override
-  State<PersonPage> createState() => _PersonPageState();
+  State<PersonCustomerPage> createState() => _PersonCustomerPageState();
 }
 
-class _PersonPageState extends State<PersonPage> {
-  AuthService authService = AuthService();
-  String LogOut = 'LogOut';
+class _PersonCustomerPageState extends State<PersonCustomerPage> {
   @override
   Widget build(BuildContext context) {
+    AuthService authService = AuthService();
+    String LogOut = 'LogOut';
     return Scaffold(
-      appBar: AppBar(actions: [
-        Title(color: Colors.black, child: Text("hi ," + "My Name"))
-      ]),
       body: Column(
         children: [
-          ListTile(
-            leading: Text(
-              "Oders",
-              style: Appstyle(Colors.red, 20, FontWeight.bold),
-            ),
-            title: IconButton(
-              onPressed: () {
-                nextScreen(context, OdersPage());
-              },
-              icon: Icon(
-                Icons.delivery_dining,
-                size: 40,
-                color: Colors.red,
-              ),
-            ),
-          ),
           ListTile(
             onTap: () async {
               showDialog(
@@ -79,7 +58,7 @@ class _PersonPageState extends State<PersonPage> {
               style: Appstyle(Colors.black, 20, FontWeight.bold),
             ),
             leading: Icon(Ionicons.exit_outline),
-          ),
+          )
         ],
       ),
     );

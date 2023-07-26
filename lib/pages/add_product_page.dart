@@ -143,7 +143,11 @@ class _AddproductState extends State<Addproduct> {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      addCourseDetail(context);
+                      if (url != null && _nameController != null) {
+                        addCourseDetail(context);
+                      }else{
+                        
+                      }
                     },
                     child: Text(
                       btupdate,

@@ -113,7 +113,7 @@ class _ProductPageState extends State<ProductPage> {
                                                   FontWeight.bold),
                                             ),
                                             Text(
-                                              price,
+                                              '\$$price',
                                               style: Appstyle(Colors.black, 20,
                                                   FontWeight.normal),
                                             )
@@ -122,7 +122,9 @@ class _ProductPageState extends State<ProductPage> {
                                         Row(
                                           children: [
                                             IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  _update();
+                                                },
                                                 icon: Icon(Icons.pending)),
                                             IconButton(
                                                 onPressed: () {
@@ -137,12 +139,6 @@ class _ProductPageState extends State<ProductPage> {
                                       ],
                                     ),
                                   ),
-                                  _role == 'vendor'
-                                      ? ElevatedButton(
-                                          onPressed: () {},
-                                          child: Text('mua ngay'),
-                                        )
-                                      : SizedBox.shrink(),
                                 ],
                               ),
                             );
@@ -165,6 +161,7 @@ class _ProductPageState extends State<ProductPage> {
     if (documentSnapshot != null) {
       _nameController.text = documentSnapshot['name'];
       _priceController.text = documentSnapshot['price'].toString();
+      String url = documentSnapshot['imgeUrl'];
     }
 
     await showModalBottomSheet(
@@ -183,12 +180,15 @@ class _ProductPageState extends State<ProductPage> {
               children: [
                 Center(
                   child: Container(
+                    decoration: BoxDecoration(color: Colors.grey[300]),
                     height: 100,
                     width: 100,
                     child: Icon(Icons.add_a_photo),
                   ),
                 ),
-                ElevatedButton(onPressed: () {}, child: Text('chose Image')),
+                Center(
+                    child: ElevatedButton(
+                        onPressed: () {}, child: Text('chose Image'))),
                 TextField(
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Name'),

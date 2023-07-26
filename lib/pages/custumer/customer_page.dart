@@ -101,8 +101,10 @@ class _CartPageState extends State<_CartPage> {
         .collection('users')
         .doc(user.uid)
         .get();
+
     String userName = userSnapshot['fullName'];
     String userEmail = userSnapshot['email'];
+
     for (var productmodel in widget.items) {
       await orderCollection.add({
         'customerName': userName,
@@ -112,6 +114,7 @@ class _CartPageState extends State<_CartPage> {
             productmodel.name, // Thêm id sản phẩm vào model nếu chưa có
         'quantity': productmodel.quantity,
         'price': productmodel.price,
+        'imageUrl': productmodel.imageUrl,
         'status': 'pending', // Trạng thái đơn hàng (đang chờ xử lý)
       });
     }

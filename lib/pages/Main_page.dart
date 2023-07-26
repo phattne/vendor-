@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/pages/homepage.dart';
-import 'package:vendor/pages/oder_page.dart';
+import 'package:vendor/pages/Oder_page.dart';
 import 'package:vendor/pages/person_page.dart';
 import 'package:vendor/provider/controller/main_screenProvider.dart';
 import 'package:vendor/share/bottomNaviWidget.dart';
@@ -57,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
                     onTap: () {
                       mainscreenNotifier.pageIndex = 2;
                     },
-                    icon: Icons.on_device_training_rounded,
+                    icon: Ionicons.cart_outline,
                   ),
                   BottomNaviWidget(
                     onTap: () {

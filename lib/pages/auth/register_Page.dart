@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Main_page.dart';
+import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/pages/auth/login_page.dart';
+import 'package:vendor/pages/custumer/customer_page.dart';
 import 'package:vendor/pages/homepage.dart';
 import 'package:vendor/service/auth_service.dart';
 import 'package:vendor/share/constants.dart';
@@ -148,26 +150,46 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Checkbox(
-                        value: isCustomer,
-                        onChanged: (selected) {
-                          setState(() {
-                            isCustomer = selected ?? false;
-                          });
-                        }),
-                    Text("login as customer"),
-                    Checkbox(
-                        value: isVendor,
-                        onChanged: (selected) {
-                          setState(() {
-                            isVendor = selected ?? false;
-                          });
-                        }),
-                    Text("login as vendor"),
-                  ],
+                Container(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisSize: MainAxisSize
+                        .min, // Thêm dòng này để chỉ định kích thước tối thiểu cho Row
+
+                    children: <Widget>[
+                      Expanded(
+                        child: ListTile(
+                          leading: Radio(
+                            value: true,
+                            groupValue: isCustomer,
+                            onChanged: (selected) {
+                              setState(() {
+                                isCustomer = selected ?? false;
+                                isVendor = false; // Clear the vendor selection
+                              });
+                            },
+                          ),
+                          title: Text("Customer"),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          leading: Radio(
+                            value: true,
+                            groupValue: isVendor,
+                            onChanged: (selected) {
+                              setState(() {
+                                isVendor = selected ?? false;
+                                isCustomer =
+                                    false; // Clear the customer selection
+                              });
+                            },
+                          ),
+                          title: Text("Vendor"),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -198,7 +220,8 @@ class _RegisterPageState extends State<RegisterPage> {
     String role = "";
     if (isCustomer) role = "customer";
     if (isVendor) role = "vendor";
-    if (fromkey.currentState!.validate()) {
+
+    if (fromkey.currentState!.validate() && isCustomer || isVendor) {
       setState(() {
         _isLoading = true;
       });
@@ -214,7 +237,10 @@ class _RegisterPageState extends State<RegisterPage> {
           await HelperFunctions.saveUserLoggedInStatus(true);
           await HelperFunctions.saveUserEmailSF(email);
           await HelperFunctions.saveUserNameSF(fullname);
-          nextScreenReplace(context, const MainScreen());
+
+          await HelperFunctions.saveUserRoleSF(role);
+          nextScreenReplace(
+              context, role == "customer" ? CustomerPage() : MainScreen());
         } else {
           showSnackbar(context, Colors.red, value);
           setState(() {

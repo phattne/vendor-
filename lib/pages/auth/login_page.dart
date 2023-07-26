@@ -7,6 +7,7 @@ import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Main_page.dart';
 import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/pages/auth/register_Page.dart';
+import 'package:vendor/pages/custumer/customer_page.dart';
 import 'package:vendor/pages/homepage.dart';
 import 'package:vendor/service/auth_service.dart';
 import 'package:vendor/service/database_service.dart';
@@ -25,6 +26,8 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   String email = "";
   String password = "";
+  bool isCustomer = false;
+  bool isVendor = false;
   AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
@@ -147,6 +150,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   login() async {
+    String role = "";
+    if (isCustomer) role = "customer";
+    if (isVendor) role = "vendor";
     if (fromkey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
@@ -165,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
           final role = snapshot.docs[0]['role'];
           await HelperFunctions.saveUserRoleSF(role);
           nextScreenReplace(
-              context, role == "customer" ? ProductPage() : MainScreen());
+              context, role == "customer" ? CustomerPage() : MainScreen());
         } else {
           showSnackbar(context, Colors.red, value);
           setState(() {

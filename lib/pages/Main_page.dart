@@ -22,6 +22,8 @@ class _MainScreenState extends State<MainScreen> {
     OderPage(),
     PersonPage(),
   ];
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   @override
   Widget build(BuildContext context) {
     return Consumer<MainscreenNotifier>(
@@ -47,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
                       mainscreenNotifier.pageIndex = 0;
                     },
                     icon: Icons.home,
+                    
                   ),
                   BottomNaviWidget(
                     onTap: () {

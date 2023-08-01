@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:vendor/pages/Status_oder_page.dart';
 import 'package:vendor/pages/auth/login_page.dart';
 import 'package:vendor/pages/listCustomer_page.dart';
 import 'package:vendor/service/auth_service.dart';
@@ -39,6 +40,20 @@ class _PersonPageState extends State<PersonPage> {
             ),
           ),
           ListTile(
+            onTap: () {
+              nextScreen(context, StatusOder());
+            },
+            leading: Icon(
+              Ionicons.cart_sharp,
+              size: 30,
+              color: Colors.red,
+            ),
+            title: Text(
+              'Status',
+              style: Appstyle(Colors.black, 20, FontWeight.bold),
+            ),
+          ),
+          ListTile(
             onTap: () async {
               showDialog(
                   barrierDismissible: false,
@@ -46,7 +61,10 @@ class _PersonPageState extends State<PersonPage> {
                   builder: (context) {
                     return AlertDialog(
                       title: Text(LogOut),
-                      content: Text('you are sure you want to logout?'),
+                      content: Text(
+                        'You are sure you want to logout?',
+                        style: Appstyle(Colors.black, 20, FontWeight.bold),
+                      ),
                       actions: [
                         IconButton(
                             onPressed: () {

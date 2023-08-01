@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vendor/pages/Main_page.dart';
 import 'package:vendor/pages/Product_page.dart';
 import 'package:vendor/share/constants.dart';
 import 'package:vendor/widgets/getmyField.dart';
@@ -57,6 +58,14 @@ class _AddproductState extends State<Addproduct> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
+        leading: IconButton(
+            onPressed: () {
+              nextScreen(context, ProductPage());
+            },
+            icon: Icon(
+              Icons.chevron_left_outlined,
+              size: 30,
+            )),
         title: Center(
           child: Text(
             titleAppbar,
@@ -145,9 +154,7 @@ class _AddproductState extends State<Addproduct> {
                     onPressed: () {
                       if (url != null && _nameController != null) {
                         addCourseDetail(context);
-                      }else{
-                        
-                      }
+                      } else {}
                     },
                     child: Text(
                       btupdate,

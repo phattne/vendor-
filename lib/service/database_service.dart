@@ -20,6 +20,8 @@ class DatabaseService {
       FirebaseFirestore.instance.collection("users");
   final CollectionReference groupCollection =
       FirebaseFirestore.instance.collection("groups");
+  final CollectionReference orderCollection =
+      FirebaseFirestore.instance.collection('orders');
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -61,6 +63,8 @@ class DatabaseService {
     String downloadUrl = await snapshot.ref.getDownloadURL();
     return downloadUrl;
   }
+
+  
 }
 
 class OrderService {

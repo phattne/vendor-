@@ -10,14 +10,14 @@ enum OrderStatus {
   canceled,
 }
 
-class OderPage extends StatefulWidget {
-  const OderPage({Key? key}) : super(key: key);
+class StatusOder extends StatefulWidget {
+  const StatusOder({Key? key}) : super(key: key);
 
   @override
-  State<OderPage> createState() => _OderPageState();
+  State<StatusOder> createState() => _StatusOder();
 }
 
-class _OderPageState extends State<OderPage> {
+class _StatusOder extends State<StatusOder> {
   CollectionReference orderCollection =
       FirebaseFirestore.instance.collection('order');
 
@@ -54,11 +54,7 @@ class _OderPageState extends State<OderPage> {
               final List<QueryDocumentSnapshot> allOrders =
                   streamSnapshot.data!.docs;
 
-              visibleOrders = allOrders
-                  .where((doc) =>
-                      doc['status'] != OrderStatus.confirmed.toString() &&
-                      doc['status'] != OrderStatus.canceled.toString())
-                  .toList();
+              visibleOrders = allOrders;
 
               return ListView.builder(
                 itemCount: visibleOrders.length,
@@ -71,6 +67,7 @@ class _OderPageState extends State<OderPage> {
                   String price = documentSnapshot['price'].toString();
                   String quantity = documentSnapshot['quantity'].toString();
                   String urloder = documentSnapshot['imageUrl'];
+                  String status = documentSnapshot['status'];
                   return SingleChildScrollView(
                     child: Column(
                       children: [
@@ -128,29 +125,16 @@ class _OderPageState extends State<OderPage> {
                                             fontSize: 20,
                                             fontWeight: FontWeight.normal),
                                       ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            ' $status',
+                                            style: Appstyle(Colors.red, 16,
+                                                FontWeight.bold),
+                                          ),
+                                        ],
+                                      )
                                     ],
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.orange),
-                                    onPressed: () {
-                                      _confirmOrder(documentSnapshot.id);
-                                    },
-                                    child: Text('Confirm'),
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.red),
-                                    onPressed: () {
-                                      _cancelOrder(documentSnapshot.id);
-                                    },
-                                    child: Text('Cancel'),
                                   ),
                                 ],
                               ),
@@ -163,12 +147,7 @@ class _OderPageState extends State<OderPage> {
                 }),
               );
             }
-            return Center(
-              child: Text(
-                'No orders yet',
-                style: Appstyle(Colors.red, 20, FontWeight.bold),
-              ),
-            );
+            return Text('No orders');
           },
         ),
       ),

@@ -49,6 +49,7 @@ class _CustomerPageState extends State<CustomerPage> {
       body: _buildPage(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.red,
+        unselectedItemColor: Colors.black,
         onTap: (index) => setState(() {
           _selectedPageIndex = index;
         }),
@@ -78,10 +79,8 @@ class _CartPageState extends State<_CartPage> {
       FirebaseFirestore.instance.collection('order');
 
   void _placeOrder() async {
-    // Kiểm tra xem người dùng đã đăng nhập chưa
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      // Hiển thị thông báo yêu cầu đăng nhập
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -110,12 +109,11 @@ class _CartPageState extends State<_CartPage> {
         'customerName': userName,
         'customerEmail': userEmail,
         'customerId': user.uid,
-        'productName':
-            productmodel.name, // Thêm id sản phẩm vào model nếu chưa có
+        'productName': productmodel.name,
         'quantity': productmodel.quantity,
         'price': productmodel.price,
         'imageUrl': productmodel.imageUrl,
-        'status': 'pending', // Trạng thái đơn hàng (đang chờ xử lý)
+        'status': 'pending',
       });
     }
 
@@ -164,7 +162,7 @@ class _CartPageState extends State<_CartPage> {
                         style: Appstyle(Colors.red, 20, FontWeight.bold),
                       ),
                       trailing: Container(
-                        width: 130,
+                        width: 170,
                         child: Row(children: [
                           IconButton(
                               onPressed: () {
@@ -185,7 +183,17 @@ class _CartPageState extends State<_CartPage> {
                                   productmedol.quantity++;
                                 });
                               },
-                              icon: Icon(Icons.add_rounded))
+                              icon: Icon(Icons.add_rounded)),
+                          IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  widget.items.removeAt(index);
+                                });
+                              },
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ))
                         ]),
                       )),
                 ],
@@ -193,19 +201,42 @@ class _CartPageState extends State<_CartPage> {
             },
           ),
         ),
-        Container(
-          height: 100,
-          width: double.infinity,
-          decoration: BoxDecoration(color: Colors.grey[300]),
-          child: Center(
-            child: Text('Total: \$${total.toStringAsFixed(2)}'),
+        if (widget.items.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 100,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.grey[300]),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      'total:',
+                      style: Appstyle(Colors.black, 30, FontWeight.w500),
+                    ),
+                    Text(
+                      '\$${total}',
+                      style: Appstyle(Colors.red, 30, FontWeight.bold),
+                    )
+                  ]),
+            ),
           ),
-        ),
-        ElevatedButton(
-            onPressed: () {
-              _placeOrder();
-            },
-            child: Text('đặt hàng'))
+        if (widget.items.isNotEmpty)
+          Container(
+            width: 200,
+            child: ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll<Color>(Colors.orange),
+                ),
+                onPressed: () {
+                  _placeOrder();
+                },
+                child: Text('Oders')),
+          )
       ],
     );
   }

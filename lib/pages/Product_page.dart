@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor/helper/helper_function.dart';
+import 'package:vendor/pages/Main_page.dart';
 import 'package:vendor/pages/add_product_page.dart';
+import 'package:vendor/pages/homepage.dart';
 import 'package:vendor/share/constants.dart';
+import 'package:vendor/widgets/widgets.dart';
 
 import '../model/product_model.dart';
 
@@ -38,6 +41,12 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[300],
+        leading: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.chevron_left_outlined,
+              size: 30,
+            )),
         title: Center(
             child: Text(
           "Products",

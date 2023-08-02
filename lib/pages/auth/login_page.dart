@@ -32,121 +32,118 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey[300],
-        ),
         body: SingleChildScrollView(
-          child: Form(
-              key: fromkey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "SALE",
-                    style: Appstyle(Colors.orange, 40, FontWeight.bold),
-                  ),
-                  Text(
-                    "login Now",
-                    style: Appstyle(Colors.grey, 20, FontWeight.w500),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Image.asset('assets/images/background.jpg'),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: TextFormField(
-                      decoration: textInputDecoration.copyWith(
-                          labelText: "Email",
-                          prefixIcon: Icon(
-                            Icons.email,
-                            color: Colors.black,
-                          )),
-                      onChanged: (val) {
-                        setState(() {
-                          email = val;
-                        });
-                      },
+      child: Form(
+          key: fromkey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "SALE",
+                style: Appstyle(Colors.orange, 40, FontWeight.bold),
+              ),
+              Text(
+                "login Now",
+                style: Appstyle(Colors.grey, 20, FontWeight.w500),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Image.asset('assets/images/background.jpg'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30),
+                child: TextFormField(
+                  decoration: textInputDecoration.copyWith(
+                      labelText: "Email",
+                      prefixIcon: Icon(
+                        Icons.email,
+                        color: Colors.black,
+                      )),
+                  onChanged: (val) {
+                    setState(() {
+                      email = val;
+                    });
+                  },
 
-                      // check tha validation
-                      validator: (val) {
-                        return RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                .hasMatch(val!)
-                            ? null
-                            : "Please enter a valid email";
-                      },
-                    ),
+                  // check tha validation
+                  validator: (val) {
+                    return RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(val!)
+                        ? null
+                        : "Please enter a valid email";
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: TextFormField(
+                  obscureText: true,
+                  decoration: textInputDecoration.copyWith(
+                      labelText: "Password",
+                      prefixIcon: Icon(
+                        Icons.lock,
+                        color: Colors.black,
+                      )),
+                  validator: (val) {
+                    if (val!.length < 6) {
+                      return "Password must be at least 6 characters";
+                    } else {
+                      return null;
+                    }
+                  },
+                  onChanged: (val) {
+                    setState(() {
+                      password = val;
+                    });
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30))),
+                  child: const Text(
+                    "Sign In",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    child: TextFormField(
-                      obscureText: true,
-                      decoration: textInputDecoration.copyWith(
-                          labelText: "Password",
-                          prefixIcon: Icon(
-                            Icons.lock,
-                            color: Colors.black,
-                          )),
-                      validator: (val) {
-                        if (val!.length < 6) {
-                          return "Password must be at least 6 characters";
-                        } else {
-                          return null;
-                        }
-                      },
-                      onChanged: (val) {
-                        setState(() {
-                          password = val;
-                        });
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 300,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: Theme.of(context).primaryColor,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30))),
-                      child: const Text(
-                        "Sign In",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                      onPressed: () {
-                        login();
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text.rich(TextSpan(
-                    text: "Don't have an account? ",
-                    style: const TextStyle(color: Colors.black, fontSize: 14),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: "Register here",
-                          style: const TextStyle(
-                              color: Colors.black,
-                              decoration: TextDecoration.underline),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              nextScreen(context, const RegisterPage());
-                            }),
-                    ],
-                  )),
+                  onPressed: () {
+                    login();
+                  },
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text.rich(TextSpan(
+                text: "Don't have an account? ",
+                style: const TextStyle(color: Colors.black, fontSize: 14),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: "Register here",
+                      style: const TextStyle(
+                          color: Colors.black,
+                          decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          nextScreen(context, const RegisterPage());
+                        }),
                 ],
               )),
-        ));
+            ],
+          )),
+    ));
   }
 
   login() async {

@@ -45,7 +45,6 @@ class _CustomerPageState extends State<CustomerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: _buildPage(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.red,
@@ -113,7 +112,7 @@ class _CartPageState extends State<_CartPage> {
         'quantity': productmodel.quantity,
         'price': productmodel.price,
         'imageUrl': productmodel.imageUrl,
-        'status': 'pending',
+        'status': 'OrderStatus.pending',
       });
     }
 

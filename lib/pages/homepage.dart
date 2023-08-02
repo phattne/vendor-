@@ -62,30 +62,14 @@ class _HomepageState extends State<Homepage> {
                   SizedBox(
                     height: 10,
                   ),
-                  // Container(
-                  //   height: height * 0.2,
-                  //   width: width,
-                  //   margin: EdgeInsets.all(5),
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.green[300],
-                  //     borderRadius: BorderRadius.circular(10),
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Padding(padding: EdgeInsets.only(left: 50)),
-                  //       Column(
-                  //         mainAxisAlignment: MainAxisAlignment.center,
-                  //         crossAxisAlignment: CrossAxisAlignment.start,
-                  //         children: [],
-                  //       ),
-                  //       Icon(
-                  //         Icons.add_shopping_cart,
-                  //         size: 120,
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    height: height * 0.3,
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Image.asset('assets/s1.jpg'),
+                  ),
                   SizedBox(
                     height: 10,
                   ),
@@ -115,7 +99,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ],
                         ),
-                        Icon(
+                        const Icon(
                           Icons.pin_rounded,
                           size: 120,
                         )

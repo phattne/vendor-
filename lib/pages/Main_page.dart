@@ -46,28 +46,35 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   BottomNaviWidget(
                     onTap: () {
+                      mainscreenNotifier.selectedIndex = 0;
                       mainscreenNotifier.pageIndex = 0;
                     },
                     icon: Icons.home,
-                    
+                    selected: mainscreenNotifier.selectedIndex == 0,
                   ),
                   BottomNaviWidget(
                     onTap: () {
                       mainscreenNotifier.pageIndex = 1;
+                      mainscreenNotifier.selectedIndex = 1;
                     },
                     icon: Icons.add_box,
+                    selected: mainscreenNotifier.selectedIndex == 1,
                   ),
                   BottomNaviWidget(
                     onTap: () {
                       mainscreenNotifier.pageIndex = 2;
+                      mainscreenNotifier.selectedIndex = 2;
                     },
                     icon: Ionicons.cart_outline,
+                    selected: mainscreenNotifier.selectedIndex == 2,
                   ),
                   BottomNaviWidget(
                     onTap: () {
                       mainscreenNotifier.pageIndex = 3;
+                      mainscreenNotifier.selectedIndex = 3;
                     },
                     icon: Icons.person,
+                    selected: mainscreenNotifier.selectedIndex == 3,
                   ),
                 ],
               ),

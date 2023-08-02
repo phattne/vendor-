@@ -16,9 +16,13 @@ class _PersonCustomerPageState extends State<PersonCustomerPage> {
   Widget build(BuildContext context) {
     AuthService authService = AuthService();
     String LogOut = 'LogOut';
+    
     return Scaffold(
       body: Column(
         children: [
+          SizedBox(
+            height: 50,
+          ),
           ListTile(
             onTap: () async {
               showDialog(

@@ -25,6 +25,16 @@ class _PersonPageState extends State<PersonPage> {
       ]),
       body: Column(
         children: [
+          SizedBox(
+            height: 20,
+          ),
+          Icon(
+            Icons.person_2_sharp,
+            size: 100,
+          ),
+          SizedBox(
+            height: 40,
+          ),
           ListTile(
             onTap: () {
               nextScreen(context, ListCustomer());

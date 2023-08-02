@@ -5,9 +5,11 @@ class BottomNaviWidget extends StatelessWidget {
     super.key,
     this.onTap,
     this.icon,
+    required this.selected,
   });
   final void Function()? onTap;
   final IconData? icon;
+  final bool selected;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class BottomNaviWidget extends StatelessWidget {
         width: 36,
         child: Icon(
           icon,
-          color: Colors.white,
+          color: selected ? Colors.orange : Colors.white,
         ),
       ),
     );

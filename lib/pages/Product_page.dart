@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor/helper/helper_function.dart';
@@ -54,6 +56,7 @@ class _ProductPageState extends State<ProductPage> {
         )),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Addproduct()));
@@ -61,6 +64,7 @@ class _ProductPageState extends State<ProductPage> {
         child: Icon(Icons.add),
       ),
       body: Container(
+        color: Colors.grey[400],
         height: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,7 +97,7 @@ class _ProductPageState extends State<ProductPage> {
                                 children: [
                                   Card(
                                     margin: const EdgeInsets.all(10),
-                                    color: Colors.grey[300],
+                                    color: Colors.white,
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
@@ -118,12 +122,12 @@ class _ProductPageState extends State<ProductPage> {
                                             ),
                                             Text(
                                               "SL $soluong",
-                                              style: Appstyle(Colors.red, 12,
+                                              style: Appstyle(Colors.blue, 12,
                                                   FontWeight.bold),
                                             ),
                                             Text(
                                               '\$$price',
-                                              style: Appstyle(Colors.black, 20,
+                                              style: Appstyle(Colors.red, 20,
                                                   FontWeight.normal),
                                             )
                                           ],
@@ -153,10 +157,14 @@ class _ProductPageState extends State<ProductPage> {
                             );
                           }));
                     }
-                    return const Center(
+                    return Container(
                       child: Center(
-                        child: Text('no product click "add product" now '),
-                      ),
+                          child: Row(
+                        children: [
+                          Image.asset('assets/sad.png'),
+                          Text('Click add product now')
+                        ],
+                      )),
                     );
                   }),
             ),

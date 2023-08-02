@@ -55,9 +55,14 @@ class _OderPageState extends State<OderPage> {
                   streamSnapshot.data!.docs;
 
               visibleOrders = allOrders
-                  .where((doc) =>
-                      doc['status'] != OrderStatus.confirmed.toString() &&
-                      doc['status'] != OrderStatus.canceled.toString())
+                  .where(
+                      (doc) => doc['status'] == OrderStatus.pending.toString()
+
+                      // doc['status'] != OrderStatus.confirmed.toString() &&
+                      // doc['status'] != OrderStatus.canceled.toString() &&
+                      // doc['status'] != OrderStatus.delivering.toString() &&
+                      // doc['status'] != OrderStatus.completed.toString()
+                      )
                   .toList();
 
               return ListView.builder(

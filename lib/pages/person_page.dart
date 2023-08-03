@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Status_oder_page.dart';
 import 'package:vendor/pages/auth/login_page.dart';
 import 'package:vendor/pages/listCustomer_page.dart';
@@ -17,20 +18,82 @@ class PersonPage extends StatefulWidget {
 class _PersonPageState extends State<PersonPage> {
   AuthService authService = AuthService();
   String LogOut = 'LogOut';
+  String vendorname = "";
+  String vendoremail = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    gettingVendorData();
+  }
+
+  gettingVendorData() async {
+    await HelperFunctions.getUserEmailFromSF().then((value) {
+      setState(() {
+        vendoremail = value!;
+      });
+    });
+    await HelperFunctions.getUserNameFromSF().then((val) {
+      setState(() {
+        vendorname = val!;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        Title(color: Colors.black, child: Text("hi ," + "My Name"))
-      ]),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: 20,
+            height: 50,
           ),
-          Icon(
-            Icons.person_2_sharp,
-            size: 100,
+          Text(
+            'Profile Person ',
+            style: Appstyle(Colors.green, 30, FontWeight.bold),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Ionicons.person_circle,
+                size: 100,
+              ),
+              Text.rich(
+                TextSpan(
+                  text: " Hi,",
+                  style: Appstyle(Colors.black, 30, FontWeight.w400),
+                  children: [
+                    TextSpan(
+                      text: vendorname,
+                      style: TextStyle(
+                        color: Colors.red, // Thay đổi màu tùy ý ở đây
+                        fontSize: 25, // Điều chỉnh kích thước tùy ý
+                        fontWeight: FontWeight.w400, // Điều chỉnh độ đậm tùy ý
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text.rich(
+                TextSpan(
+                  text: " email: ",
+                  style: Appstyle(Colors.black, 30, FontWeight.w400),
+                  children: [
+                    TextSpan(
+                      text: vendoremail,
+                      style: TextStyle(
+                        color: Colors.red, // Thay đổi màu tùy ý ở đây
+                        fontSize: 20, // Điều chỉnh kích thước tùy ý
+                        fontWeight: FontWeight.w400, // Điều chỉnh độ đậm tùy ý
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
           SizedBox(
             height: 40,

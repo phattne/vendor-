@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../model/product_model.dart';
 import '../../share/constants.dart';
@@ -16,6 +17,12 @@ class CustomerproDuct extends StatefulWidget {
 class _CustomerproDuct extends State<CustomerproDuct> {
   final CollectionReference productcollection =
       FirebaseFirestore.instance.collection('product');
+  List<String> listImage = [
+    'assets/images/Online_Shoping_13.jpg',
+    'assets/images/4925599.jpg',
+    'assets/images/2835907.jpg'
+  ];
+  PageController _pageController = PageController(viewportFraction: 0.7);
 
   @override
   Widget build(BuildContext context) {
@@ -64,64 +71,113 @@ class _CustomerproDuct extends State<CustomerproDuct> {
 
           return SingleChildScrollView(
             child: Expanded(
-              child: GridView.count(
-                padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                children: List.generate(productList.length, (index) {
-                  Productmedol productmedol = productList[index];
-                  return GestureDetector(
-                    onTap: () => _showBottomSheet(context, productmedol),
-                    child: Container(
-                      decoration: BoxDecoration(color: Colors.white54),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Center(
-                              child: Image.network(
-                                productmedol.imageUrl,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: listImage.length,
+                        itemBuilder: (_, index) => Container(
+                              margin: const EdgeInsets.all(10),
+                              height: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  image: DecorationImage(
+                                      image: AssetImage(listImage[index]),
+                                      fit: BoxFit.cover),
+                                  color: Colors.amber),
+                            )),
+                  ),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  SmoothPageIndicator(
+                    controller: _pageController,
+                    count: listImage.length,
+                    effect: WormEffect(activeDotColor: Colors.amber),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[400]),
+                    child: GridView.count(
+                      padding: const EdgeInsets.all(20),
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: List.generate(productList.length, (index) {
+                        Productmedol productmedol = productList[index];
+                        return GestureDetector(
+                          onTap: () => _showBottomSheet(context, productmedol),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.amber),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  productmedol.name,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 1),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Center(
+                                      child: Image.network(
+                                        productmedol.imageUrl,
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                                Text(
-                                  '\$${productmedol.price.toStringAsFixed(2)}',
-                                  style: Appstyle(
-                                    Colors.red,
-                                    16,
-                                    FontWeight.bold,
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        productmedol.name,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      Text(
+                                        '\$${productmedol.price.toStringAsFixed(2)}',
+                                        style: Appstyle(
+                                          Colors.red,
+                                          16,
+                                          FontWeight.bold,
+                                        ),
+                                      ),
+                                      // Text(
+                                      //   'soluong: ${productmedol.soluong}',
+                                      //   style: TextStyle(
+                                      //     fontSize: 12,
+                                      //   ),
+                                      // ),
+                                    ],
                                   ),
                                 ),
-                                // Text(
-                                //   'soluong: ${productmedol.soluong}',
-                                //   style: TextStyle(
-                                //     fontSize: 12,
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      }),
                     ),
-                  );
-                }),
+                  ),
+                ],
               ),
             ),
           );
@@ -135,9 +191,7 @@ class _CustomerproDuct extends State<CustomerproDuct> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-       
         return Container(
-        
           child: Column(
             children: [
               Text(

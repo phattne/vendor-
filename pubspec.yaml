@@ -45,6 +45,7 @@ dependencies:
   provider: ^6.0.5
   firebase_database: ^10.2.3
   ionicons: ^0.2.2
+  smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
   flutter_test:

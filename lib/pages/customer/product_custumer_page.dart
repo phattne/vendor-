@@ -101,9 +101,22 @@ class _CustomerproDuct extends State<CustomerproDuct> {
                     effect: WormEffect(activeDotColor: Colors.amber),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 4,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: Text(
+                          'Product',
+                          style: Appstyle(Colors.black, 20, FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
                   Container(
+                    margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.grey[400]),
@@ -119,6 +132,7 @@ class _CustomerproDuct extends State<CustomerproDuct> {
                         return GestureDetector(
                           onTap: () => _showBottomSheet(context, productmedol),
                           child: Container(
+                            margin: EdgeInsets.all(2),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 color: Colors.amber),
@@ -129,7 +143,7 @@ class _CustomerproDuct extends State<CustomerproDuct> {
                                   child: Container(
                                     margin: EdgeInsets.only(top: 1),
                                     decoration: BoxDecoration(
-                                        color: Colors.grey,
+                                        color: Colors.amber,
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     child: Center(

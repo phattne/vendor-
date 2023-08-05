@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Main_page.dart';
-import 'package:vendor/pages/add_product_page.dart';
-import 'package:vendor/pages/homepage.dart';
+import 'package:vendor/pages/vendor/add_product_page.dart';
+import 'package:vendor/pages/vendor/homepage.dart';
 import 'package:vendor/share/constants.dart';
 import 'package:vendor/widgets/widgets.dart';
 
-import '../model/product_model.dart';
-import '../utils/camera.dart';
+import '../../model/product_model.dart';
+import '../../utils/camera.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -32,6 +32,9 @@ class _ProductPageState extends State<ProductPage> {
   String? _imageUrl;
   final picker = ImagePicker();
   File? _imageFile;
+  List<String> listImage = [
+    
+  ];
 
   void getUserRole() async {
     final role = await HelperFunctions.getUserRoleFromSF() ?? "";

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor/pages/Product_page.dart';
-import 'package:vendor/pages/homepage.dart';
-import 'package:vendor/pages/Oder_page.dart';
-import 'package:vendor/pages/person_page.dart';
+import 'package:vendor/pages/customer/Product_page.dart';
+import 'package:vendor/pages/vendor/homepage.dart';
+import 'package:vendor/pages/vendor/Oder_page.dart';
+import 'package:vendor/pages/vendor/person_page.dart';
 import 'package:vendor/provider/controller/main_screenProvider.dart';
 import 'package:vendor/share/bottomNaviWidget.dart';
 
@@ -37,7 +37,7 @@ class _MainScreenState extends State<MainScreen> {
               padding: const EdgeInsets.all(12),
               margin: const EdgeInsets.symmetric(horizontal: 10),
               decoration: const BoxDecoration(
-                  color: Colors.black,
+                  color: Colors.white,
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
                   )),

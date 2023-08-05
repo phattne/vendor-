@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:vendor/helper/helper_function.dart';
-import 'package:vendor/pages/Status_oder_page.dart';
+import 'package:vendor/pages/vendor/Status_oder_page.dart';
 import 'package:vendor/pages/auth/login_page.dart';
-import 'package:vendor/pages/listCustomer_page.dart';
+import 'package:vendor/pages/vendor/listCustomer_page.dart';
 import 'package:vendor/service/auth_service.dart';
 import 'package:vendor/share/constants.dart';
 import 'package:vendor/widgets/widgets.dart';

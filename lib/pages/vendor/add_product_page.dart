@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vendor/pages/Main_page.dart';
-import 'package:vendor/pages/Product_page.dart';
+import 'package:vendor/pages/customer/Product_page.dart';
 import 'package:vendor/share/constants.dart';
 import 'package:vendor/widgets/getmyField.dart';
 import 'package:vendor/widgets/widgets.dart';

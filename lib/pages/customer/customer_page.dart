@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:vendor/model/product_model.dart';
-import 'package:vendor/pages/custumer/person_customer_page.dart';
-import 'package:vendor/pages/custumer/product_custumer_page.dart';
+import 'package:vendor/pages/customer/person_customer_page.dart';
+import 'package:vendor/pages/customer/product_custumer_page.dart';
 
 import 'package:vendor/share/constants.dart';
 

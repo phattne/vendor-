@@ -20,7 +20,7 @@ class BottomNaviWidget extends StatelessWidget {
         width: 36,
         child: Icon(
           icon,
-          color: selected ? Colors.orange : Colors.white,
+          color: selected ? Colors.orange : Colors.black,
         ),
       ),
     );

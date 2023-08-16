@@ -46,15 +46,18 @@ class _CustomerPageState extends State<CustomerPage> {
     }
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildPage(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.orange,
+        unselectedItemColor: Colors.black,
         onTap: (index) => setState(() {
           _selectedPageIndex = index;
         }),
+        currentIndex: _selectedPageIndex,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "products"),
           BottomNavigationBarItem(

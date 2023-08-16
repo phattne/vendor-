@@ -4,11 +4,13 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Main_page.dart';
 import 'package:vendor/pages/vendor/add_product_page.dart';
 import 'package:vendor/pages/vendor/homepage.dart';
+import 'package:vendor/pages/vendor/product_details.dart';
 import 'package:vendor/share/constants.dart';
 import 'package:vendor/widgets/widgets.dart';
 
@@ -32,9 +34,7 @@ class _ProductPageState extends State<ProductPage> {
   String? _imageUrl;
   final picker = ImagePicker();
   File? _imageFile;
-  List<String> listImage = [
-    
-  ];
+  List<String> listImage = [];
 
   void getUserRole() async {
     final role = await HelperFunctions.getUserRoleFromSF() ?? "";
@@ -54,22 +54,8 @@ class _ProductPageState extends State<ProductPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red[300],
-        leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.chevron_left_outlined,
-              size: 30,
-            )),
-        title: Center(
-            child: Text(
-          "Products",
-          style: Appstyle(Colors.white, 20, FontWeight.bold),
-        )),
-      ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.orange,
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Addproduct()));
@@ -77,38 +63,37 @@ class _ProductPageState extends State<ProductPage> {
         child: Icon(Icons.add),
       ),
       body: Container(
-        color: Colors.grey[400],
+        color: Colors.white,
         height: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: 5,
+              height: 8,
             ),
             Container(
-              height: height * 0.27,
+              height: height * 0.2,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: Image.asset('assets/images/4925599.jpg',
-                  fit: BoxFit.fitWidth),
+              child:
+                  Image.asset('assets/images/4925599.jpg', fit: BoxFit.cover),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 100),
+              padding: const EdgeInsets.only(right: 80),
               child: Row(
                 children: [
                   Icon(
                     Icons.list_alt,
-                    size: 30,
                     color: Colors.black,
                   ),
                   SizedBox(
-                    height: 10,
+                    width: 8,
                   ),
                   Text(
                     'list of products',
-                    style: Appstyle(Colors.black, 20, FontWeight.bold),
+                    style: Appstyle(Colors.black, 14, FontWeight.bold),
                   ),
                 ],
               ),
@@ -138,60 +123,113 @@ class _ProductPageState extends State<ProductPage> {
                                 documentSnapshot['soluong'].toString();
                             return SingleChildScrollView(
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Card(
                                     margin: const EdgeInsets.all(10),
-                                    color: Colors.white,
+                                    color: Colors.grey[300],
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       children: [
-                                        Container(
-                                          height: 100,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Image.network(url!),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Product_details(
+                                                          imageUrl: url),
+                                                ));
+                                          },
+                                          child: Container(
+                                            height: height * 0.1,
+                                            width: width * 0.2,
+                                            constraints: BoxConstraints(
+                                                maxHeight: height * 0.1,
+                                                maxWidth: width * 0.2),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Colors.orange[500]),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: Image.network(
+                                                  url!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              name,
-                                              style: Appstyle(Colors.black, 20,
-                                                  FontWeight.w600),
-                                            ),
-                                            Text(
-                                              "SL $soluong",
-                                              style: Appstyle(Colors.blue, 12,
-                                                  FontWeight.bold),
-                                            ),
-                                            Text(
-                                              '\$$price',
-                                              style: Appstyle(Colors.red, 20,
-                                                  FontWeight.normal),
-                                            )
-                                          ],
+                                        SizedBox(
+                                          width: 28,
                                         ),
-                                        Row(
-                                          children: [
-                                            IconButton(
-                                                onPressed: () {
-                                                  _update(documentSnapshot);
-                                                },
-                                                icon: Icon(Icons.pending)),
-                                            IconButton(
-                                                onPressed: () {
-                                                  _delete(documentSnapshot.id);
-                                                },
-                                                icon: Icon(
-                                                  Icons.delete,
-                                                  size: 30,
-                                                ))
-                                          ],
+                                        Container(
+                                          width: 100,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 120),
+                                                child: Text(
+                                                  name,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle: Appstyle(
+                                                          Colors.black,
+                                                          14,
+                                                          FontWeight.w400)),
+                                                ),
+                                              ),
+                                              Text(
+                                                "SL $soluong",
+                                                style: GoogleFonts.roboto(
+                                                    textStyle: Appstyle(
+                                                        Colors.lightBlue,
+                                                        14,
+                                                        FontWeight.w400)),
+                                              ),
+                                              Text(
+                                                '\$$price',
+                                                style: Appstyle(Colors.red, 14,
+                                                    FontWeight.normal),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 64,
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    _update(documentSnapshot);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.pending,
+                                                    color: Colors.blue,
+                                                  )),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    _delete(
+                                                        documentSnapshot.id);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                  ))
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -260,10 +298,16 @@ class _ProductPageState extends State<ProductPage> {
               ),
               Center(
                 child: ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                   onPressed: () async {
                     await _pickImageFromGallery();
                   },
-                  child: Text('Choose Image'),
+                  child: Text(
+                    'Choose Image',
+                    style: GoogleFonts.roboto(
+                        textStyle: Appstyle(Colors.white, 14, FontWeight.bold)),
+                  ),
                 ),
               ),
               TextField(

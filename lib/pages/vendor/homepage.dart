@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vendor/share/constants.dart';
 
 class Homepage extends StatefulWidget {
@@ -42,10 +43,11 @@ class _HomepageState extends State<Homepage> {
         appBar: AppBar(
           title: Center(
               child: Text(
-            'Trang chủ',
-            style: Appstyle(Colors.white, 30, FontWeight.bold),
+            'Home Page ',
+            style: GoogleFonts.roboto(
+                textStyle: Appstyle(Colors.white, 24, FontWeight.bold)),
           )),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.orange,
         ),
         body: FutureBuilder<Map<String, dynamic>>(
           future: _calculateTotal(),
@@ -78,7 +80,7 @@ class _HomepageState extends State<Homepage> {
                     margin: EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.blue),
+                        color: Colors.orange),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -89,13 +91,15 @@ class _HomepageState extends State<Homepage> {
                           children: [
                             Text(
                               'Total Price:',
-                              style:
-                                  Appstyle(Colors.white, 30, FontWeight.bold),
+                              style: GoogleFonts.roboto(
+                                  textStyle: Appstyle(
+                                      Colors.black, 22, FontWeight.bold)),
                             ),
                             Text(
                               "${totalPrice.toStringAsFixed(2)} \$",
-                              style:
-                                  Appstyle(Colors.white, 30, FontWeight.bold),
+                              style: GoogleFonts.roboto(
+                                  textStyle: Appstyle(
+                                      Colors.white, 18, FontWeight.bold)),
                             ),
                           ],
                         ),

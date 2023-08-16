@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:vendor/pages/customer/bottom_sheet.dart';
 
 import '../../model/product_model.dart';
 import '../../share/constants.dart';
@@ -23,16 +25,21 @@ class _CustomerproDuct extends State<CustomerproDuct> {
     'assets/images/2835907.jpg'
   ];
   PageController _pageController = PageController(viewportFraction: 0.7);
+  late int quantity;
 
   @override
   Widget build(BuildContext context) {
     List<Productmedol> productList = [];
+    List<Productmedol> cartItems = [];
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: Text(
-          'Customer',
-          style: Appstyle(Colors.white, 30, FontWeight.bold),
+        backgroundColor: Colors.orange,
+        title: Center(
+          child: Text(
+            'Main Page',
+            style: GoogleFonts.roboto(
+                textStyle: Appstyle(Colors.white, 28, FontWeight.bold)),
+          ),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -89,16 +96,16 @@ class _CustomerproDuct extends State<CustomerproDuct> {
                                   image: DecorationImage(
                                       image: AssetImage(listImage[index]),
                                       fit: BoxFit.cover),
-                                  color: Colors.amber),
+                                  color: Colors.white),
                             )),
                   ),
                   SizedBox(
-                    height: 2,
+                    height: 4,
                   ),
                   SmoothPageIndicator(
                     controller: _pageController,
                     count: listImage.length,
-                    effect: WormEffect(activeDotColor: Colors.amber),
+                    effect: WormEffect(activeDotColor: Colors.orange),
                   ),
                   SizedBox(
                     height: 4,
@@ -119,7 +126,7 @@ class _CustomerproDuct extends State<CustomerproDuct> {
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[400]),
+                        color: Colors.grey[200]),
                     child: GridView.count(
                       padding: const EdgeInsets.all(20),
                       crossAxisSpacing: 10,
@@ -130,12 +137,17 @@ class _CustomerproDuct extends State<CustomerproDuct> {
                       children: List.generate(productList.length, (index) {
                         Productmedol productmedol = productList[index];
                         return GestureDetector(
-                          onTap: () => _showBottomSheet(context, productmedol),
+                          onTap: () {
+                            // setState(() {
+                            //   quantity = productmedol.quantity;
+                            // });
+                            _showBottomSheet(context, productmedol);
+                          },
                           child: Container(
                             margin: EdgeInsets.all(2),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Colors.amber),
+                                color: Colors.white),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -143,44 +155,39 @@ class _CustomerproDuct extends State<CustomerproDuct> {
                                   child: Container(
                                     margin: EdgeInsets.only(top: 1),
                                     decoration: BoxDecoration(
-                                        color: Colors.amber,
+                                        color: Colors.white,
                                         borderRadius:
                                             BorderRadius.circular(20)),
                                     child: Center(
-                                      child: Image.network(
-                                        productmedol.imageUrl,
-                                        fit: BoxFit.fitWidth,
+                                      child: Container(
+                                        height: 70,
+                                        width: 50,
+                                        child: Image.network(
+                                          productmedol.imageUrl,
+                                          fit: BoxFit.fitWidth,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.only(left: 16),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         productmedol.name,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
+                                        style: GoogleFonts.roboto(
+                                            textStyle: Appstyle(Colors.black,
+                                                14, FontWeight.bold)),
                                       ),
                                       Text(
                                         '\$${productmedol.price.toStringAsFixed(2)}',
-                                        style: Appstyle(
-                                          Colors.red,
-                                          16,
-                                          FontWeight.bold,
-                                        ),
+                                        style: GoogleFonts.roboto(
+                                            textStyle: Appstyle(Colors.red, 14,
+                                                FontWeight.bold)),
                                       ),
-                                      // Text(
-                                      //   'soluong: ${productmedol.soluong}',
-                                      //   style: TextStyle(
-                                      //     fontSize: 12,
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                 ),
@@ -200,57 +207,19 @@ class _CustomerproDuct extends State<CustomerproDuct> {
     );
   }
 
-  void _showBottomSheet(BuildContext context, Productmedol productmedol) {
-    int quantity = productmedol.quantity;
-    showModalBottomSheet(
+  List<Productmedol> cartItems = [];
+  void _showBottomSheet(BuildContext context, Productmedol productmedol) async {
+    final quantity = await showModalBottomSheet<int>(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          child: Column(
-            children: [
-              Text(
-                'Chọn số lượng:,',
-                style: Appstyle(Colors.black, 20, FontWeight.w300),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        if (quantity > 1) {
-                          setState(() {
-                            quantity--;
-                          });
-                        }
-                      },
-                      icon: Icon(Icons.remove)),
-                  Text(
-                    '$quantity',
-                    style: Appstyle(Colors.black, 20, FontWeight.bold),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        setState(() {
-                          quantity++;
-                        });
-                      },
-                      icon: Icon(Icons.add_outlined))
-                ],
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  widget.onItemSelected(productmedol, quantity);
-                  Navigator.pop(context);
-                },
-                child: Text('Thêm vào giỏ hàng'),
-              ),
-            ],
-          ),
-        );
+        return MyBottomSheet();
       },
     );
+    if (quantity != null) {
+      productmedol.quantity = quantity;
+      print("bottom sheet data >> ${productmedol.quantity}");
+      cartItems.add(productmedol);
+      widget.onItemSelected(productmedol, quantity);
+    }
   }
 }

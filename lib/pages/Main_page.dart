@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
-import 'package:vendor/pages/customer/Product_page.dart';
+import 'package:vendor/pages/vendor/Product_page.dart';
 import 'package:vendor/pages/vendor/homepage.dart';
 import 'package:vendor/pages/vendor/Oder_page.dart';
 import 'package:vendor/pages/vendor/person_page.dart';

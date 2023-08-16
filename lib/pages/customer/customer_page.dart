@@ -10,6 +10,8 @@ import 'package:vendor/share/constants.dart';
 
 import '../../service/database_service.dart';
 
+Color selectedColor = Colors.orange;
+
 class CustomerPage extends StatefulWidget {
   const CustomerPage({super.key});
 
@@ -18,8 +20,10 @@ class CustomerPage extends StatefulWidget {
 }
 
 class _CustomerPageState extends State<CustomerPage> {
-  List<Productmedol> items = [];
+  List<Productmedol> cartItems = [];
+
   int _selectedPageIndex = 0;
+
   TextEditingController count = TextEditingController();
 
   Widget _buildPage() {
@@ -28,13 +32,13 @@ class _CustomerPageState extends State<CustomerPage> {
         return CustomerproDuct(
           onItemSelected: (Productmedol productmedol, int quantity) {
             setState(() {
-              productmedol.quantity = quantity;
-              items.add(productmedol);
+              productmedol.quantity;
+              cartItems.add(productmedol);
             });
           },
         );
       case 1:
-        return _CartPage(items);
+        return _CartPage(cartItems);
       case 2:
         return PersonCustomerPage();
       default:
@@ -47,8 +51,7 @@ class _CustomerPageState extends State<CustomerPage> {
     return Scaffold(
       body: _buildPage(),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.red,
-        unselectedItemColor: Colors.black,
+        selectedItemColor: Colors.orange,
         onTap: (index) => setState(() {
           _selectedPageIndex = index;
         }),
@@ -56,7 +59,7 @@ class _CustomerPageState extends State<CustomerPage> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "products"),
           BottomNavigationBarItem(
             icon: Icon(Ionicons.cart),
-            label: "Cart ${items.length}",
+            label: "Cart ${cartItems.length}",
           ),
           BottomNavigationBarItem(icon: Icon(Ionicons.person), label: "person")
         ],
@@ -66,8 +69,8 @@ class _CustomerPageState extends State<CustomerPage> {
 }
 
 class _CartPage extends StatefulWidget {
-  const _CartPage(this.items);
-  final List<Productmedol> items;
+  const _CartPage(this.cartItems);
+  final List<Productmedol> cartItems;
 
   @override
   State<_CartPage> createState() => _CartPageState();
@@ -103,7 +106,7 @@ class _CartPageState extends State<_CartPage> {
     String userName = userSnapshot['fullName'];
     String userEmail = userSnapshot['email'];
 
-    for (var productmodel in widget.items) {
+    for (var productmodel in widget.cartItems) {
       await orderCollection.add({
         'customerName': userName,
         'customerEmail': userEmail,
@@ -118,7 +121,7 @@ class _CartPageState extends State<_CartPage> {
 
     // Xóa các sản phẩm trong giỏ hàng sau khi đã đặt hàng
     setState(() {
-      widget.items.clear();
+      widget.cartItems.clear();
     });
     showDialog(
       context: context,
@@ -139,7 +142,7 @@ class _CartPageState extends State<_CartPage> {
   @override
   Widget build(BuildContext context) {
     double total = 0.0;
-    for (var productmodel in widget.items) {
+    for (var productmodel in widget.cartItems) {
       total += productmodel.price * productmodel.quantity;
     }
 
@@ -148,9 +151,9 @@ class _CartPageState extends State<_CartPage> {
       children: [
         Expanded(
           child: ListView.builder(
-            itemCount: widget.items.length,
+            itemCount: widget.cartItems.length,
             itemBuilder: (context, index) {
-              Productmedol productmedol = widget.items[index];
+              Productmedol productmedol = widget.cartItems[index];
               return Column(
                 children: [
                   ListTile(
@@ -186,7 +189,7 @@ class _CartPageState extends State<_CartPage> {
                           IconButton(
                               onPressed: () {
                                 setState(() {
-                                  widget.items.removeAt(index);
+                                  widget.cartItems.removeAt(index);
                                 });
                               },
                               icon: Icon(
@@ -200,7 +203,7 @@ class _CartPageState extends State<_CartPage> {
             },
           ),
         ),
-        if (widget.items.isNotEmpty)
+        if (widget.cartItems.isNotEmpty)
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -223,7 +226,7 @@ class _CartPageState extends State<_CartPage> {
                   ]),
             ),
           ),
-        if (widget.items.isNotEmpty)
+        if (widget.cartItems.isNotEmpty)
           Container(
             width: 200,
             child: ElevatedButton(

@@ -3,9 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vendor/pages/Main_page.dart';
-import 'package:vendor/pages/customer/Product_page.dart';
+import 'package:vendor/pages/vendor/Product_page.dart';
 import 'package:vendor/share/constants.dart';
 import 'package:vendor/widgets/getmyField.dart';
 import 'package:vendor/widgets/widgets.dart';
@@ -57,7 +58,7 @@ class _AddproductState extends State<Addproduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.orange,
         leading: IconButton(
             onPressed: () {
               nextScreen(context, ProductPage());
@@ -77,20 +78,12 @@ class _AddproductState extends State<Addproduct> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20),
-            Center(
-              child: Text(
-                "Add product",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w300),
-              ),
-            ),
-            SizedBox(height: 5),
+            SizedBox(height: 18),
+
+            SizedBox(height: 8),
             Container(
-              height: 200,
-              width: 200,
+              height: MediaQuery.of(context).size.height * 0.2,
+              width: MediaQuery.of(context).size.height * 0.2,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.grey[200],
@@ -114,63 +107,92 @@ class _AddproductState extends State<Addproduct> {
                         child: Icon(Icons.add_a_photo),
                       )),
             ),
-            SizedBox(height: 5),
+            SizedBox(height: 8),
             Center(
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
                 onPressed: selectFile,
-                child: Text('Choose Image'),
+                child: Text(
+                  'Choose Image',
+                  style: GoogleFonts.roboto(
+                      textStyle: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold)),
+                ),
               ),
             ),
 
             // Text('Image URL: $url'),
             SizedBox(
-              height: 10,
+              height: 8,
             ),
             getMyField(
                 hintText: "name Product",
                 controller: _nameController,
                 textInputType: TextInputType.text),
             SizedBox(
-              height: 10,
+              height: 8,
             ),
             getMyField(
                 hintText: "so luong",
                 controller: _soluong,
                 textInputType: TextInputType.number),
             SizedBox(
-              height: 10,
+              height: 8,
             ),
             getMyField(
                 hintText: "price",
                 controller: _priceController,
                 textInputType: TextInputType.number),
             SizedBox(
-              height: 10,
+              height: 32,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                ElevatedButton(
-                    onPressed: () {
-                      if (url != null && _nameController != null) {
-                        addCourseDetail(context);
-                      } else {}
-                    },
-                    child: Text(
-                      btupdate,
-                      style: Appstyle(Colors.red, 20, FontWeight.w300),
-                    )),
-                ElevatedButton(
-                    onPressed: () {
-                      _nameController.text = "";
-                      _priceController.text = "";
-                      _soluong.text = "";
-                      url = null;
-                    },
-                    child: Text(
-                      Btreset,
-                      style: Appstyle(Colors.red, 20, FontWeight.w400),
-                    )),
+                Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                  height: 40,
+                  width: 120,
+                  child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      onPressed: () {
+                        if (url != null && _nameController != null) {
+                          addCourseDetail(context);
+                        } else {}
+                      },
+                      child: Text(
+                        btupdate,
+                        style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                      )),
+                ),
+                Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(12)),
+                  height: 40,
+                  width: 120,
+                  child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                      onPressed: () {
+                        _nameController.text = "";
+                        _priceController.text = "";
+                        _soluong.text = "";
+                       
+                      },
+                      child: Text(
+                        Btreset,
+                        style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold)),
+                      )),
+                ),
               ],
             )
           ],

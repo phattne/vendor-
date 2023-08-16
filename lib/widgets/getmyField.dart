@@ -6,7 +6,7 @@ Widget getMyField(
     required TextEditingController controller,
     FocusNode? focusNode}) {
   return Padding(
-    padding: const EdgeInsets.all(10.0),
+    padding: const EdgeInsets.all(12.0),
     child: TextField(
       focusNode: focusNode,
       controller: controller,
@@ -15,7 +15,7 @@ Widget getMyField(
           hintText: 'Enter $hintText',
           labelText: hintText,
           border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)))),
+              borderRadius: BorderRadius.all(Radius.circular(12)))),
     ),
   );
 }

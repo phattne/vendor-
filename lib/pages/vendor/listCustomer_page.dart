@@ -13,19 +13,22 @@ class ListCustomer extends StatefulWidget {
 class _ListCustomer extends State<ListCustomer> {
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
-  String texttitle = "danh sách khách hàng ";
+  String texttitle = "List Customers ";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
       children: [
+        SizedBox(
+          height: 12,
+        ),
         Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(8.0),
           child: Container(
-            margin: EdgeInsets.only(top: 30),
+            margin: EdgeInsets.only(top: 10),
             height: 50,
             decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.orange,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular((20)),
                     topRight: Radius.circular(20))),
@@ -43,7 +46,7 @@ class _ListCustomer extends State<ListCustomer> {
             margin: EdgeInsets.only(top: 100),
             height: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
+              color: Colors.white,
             ),
             child: StreamBuilder(
                 stream: userCollection
@@ -68,69 +71,75 @@ class _ListCustomer extends State<ListCustomer> {
                           String email = documentSnapshot['email'];
                           String role = documentSnapshot['role'];
                           return SingleChildScrollView(
-                            child: Card(
-                              margin: const EdgeInsets.only(
-                                  left: 10, right: 10, top: 5),
-                              color: Colors.blue[300],
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.red,
-                                              borderRadius:
-                                                  BorderRadius.circular(90)),
-                                          child: Icon(
-                                            Icons.person,
-                                            size: 40,
-                                            color: Colors.white,
+                            child: Container(
+                              padding: EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: Card(
+                                color: Colors.orange[100],
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.black,
+                                                borderRadius:
+                                                    BorderRadius.circular(90)),
+                                            child: Icon(
+                                              Icons.person,
+                                              size: 40,
+                                              color: Colors.white,
+                                            ),
                                           ),
+                                        )
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          fullName,
+                                          style: Appstyle(Colors.black, 20,
+                                              FontWeight.w600),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        fullName,
-                                        style: Appstyle(
-                                            Colors.black, 20, FontWeight.w600),
-                                      ),
-                                      // Text(
-                                      //   role,
-                                      //   style: Appstyle(
-                                      //       Colors.red, 20, FontWeight.bold),
-                                      // ),
-                                      Text(
-                                        email,
-                                        style: Appstyle(Colors.black, 20,
-                                            FontWeight.normal),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            _delete(documentSnapshot.id);
-                                          },
-                                          icon: Icon(
-                                            Icons.delete,
-                                            size: 30,
-                                          )),
-                                    ],
-                                  ),
-                                ],
+                                        // Text(
+                                        //   role,
+                                        //   style: Appstyle(
+                                        //       Colors.red, 20, FontWeight.bold),
+                                        // ),
+                                        Text(
+                                          email,
+                                          style: Appstyle(Colors.black, 20,
+                                              FontWeight.normal),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              _delete(documentSnapshot.id);
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                              size: 30,
+                                            )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );

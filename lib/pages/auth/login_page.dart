@@ -5,7 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Main_page.dart';
-import 'package:vendor/pages/customer/Product_page.dart';
+import 'package:vendor/pages/vendor/Product_page.dart';
 import 'package:vendor/pages/auth/register_Page.dart';
 import 'package:vendor/pages/customer/customer_page.dart';
 import 'package:vendor/pages/vendor/homepage.dart';
@@ -39,6 +39,9 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(
+                height: 80,
+              ),
               Text(
                 "SALE",
                 style: Appstyle(Colors.orange, 40, FontWeight.bold),

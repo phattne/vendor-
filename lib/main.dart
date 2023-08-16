@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/Page_one.dart';
-import 'package:vendor/pages/customer/Product_page.dart';
+import 'package:vendor/pages/vendor/Product_page.dart';
 import 'package:vendor/pages/vendor/add_product_page.dart';
 import 'package:vendor/pages/auth/login_page.dart';
 import 'package:vendor/pages/customer/customer_page.dart';
@@ -15,7 +15,7 @@ import 'package:vendor/service/Notifications_firebase.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  await FirebaseApi().inheritedNotifications();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => MainscreenNotifier())
   ], child: const MyApp()));

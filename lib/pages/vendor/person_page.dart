@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:vendor/helper/helper_function.dart';
 import 'package:vendor/pages/vendor/Status_oder_page.dart';
@@ -44,57 +45,63 @@ class _PersonPageState extends State<PersonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        title: Center(
+          child: Text(
+            'Person Profile',
+            style: GoogleFonts.roboto(
+                textStyle: Appstyle(Colors.white, 22, FontWeight.bold)),
+          ),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
             height: 50,
           ),
-          Text(
-            'Profile Person ',
-            style: Appstyle(Colors.green, 30, FontWeight.bold),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Ionicons.person_circle,
-                size: 100,
-              ),
-              Text.rich(
-                TextSpan(
-                  text: " Hi,",
-                  style: Appstyle(Colors.black, 30, FontWeight.w400),
-                  children: [
-                    TextSpan(
-                      text: vendorname,
-                      style: TextStyle(
-                        color: Colors.red, // Thay đổi màu tùy ý ở đây
-                        fontSize: 25, // Điều chỉnh kích thước tùy ý
-                        fontWeight: FontWeight.w400, // Điều chỉnh độ đậm tùy ý
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Text.rich(
-                TextSpan(
-                  text: " email: ",
-                  style: Appstyle(Colors.black, 30, FontWeight.w400),
-                  children: [
-                    TextSpan(
-                      text: vendoremail,
-                      style: TextStyle(
-                        color: Colors.red, // Thay đổi màu tùy ý ở đây
-                        fontSize: 20, // Điều chỉnh kích thước tùy ý
-                        fontWeight: FontWeight.w400, // Điều chỉnh độ đậm tùy ý
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.start,
+          //   children: [
+          //     Icon(
+          //       Ionicons.person_circle,
+          //       size: 100,
+          //     ),
+          //     Text.rich(
+          //       TextSpan(
+          //         text: " Hi,",
+          //         style: Appstyle(Colors.black, 30, FontWeight.w400),
+          //         children: [
+          //           TextSpan(
+          //             text: vendorname,
+          //             style: TextStyle(
+          //               color: Colors.red, // Thay đổi màu tùy ý ở đây
+          //               fontSize: 25, // Điều chỉnh kích thước tùy ý
+          //               fontWeight: FontWeight.w400, // Điều chỉnh độ đậm tùy ý
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //     Text.rich(
+          //       TextSpan(
+          //         text: " email: ",
+          //         style: Appstyle(Colors.black, 30, FontWeight.w400),
+          //         children: [
+          //           TextSpan(
+          //             text: vendoremail,
+          //             style: TextStyle(
+          //               color: Colors.orange, // Thay đổi màu tùy ý ở đây
+          //               fontSize: 20, // Điều chỉnh kích thước tùy ý
+          //               fontWeight: FontWeight.w400, // Điều chỉnh độ đậm tùy ý
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ],
+          // ),
           SizedBox(
             height: 40,
           ),
@@ -104,12 +111,58 @@ class _PersonPageState extends State<PersonPage> {
             },
             leading: Icon(
               Ionicons.person_circle,
-              color: Colors.red,
+              color: Colors.orange,
               size: 30,
             ),
-            title: Text(
-              'Customer',
-              style: Appstyle(Colors.black, 20, FontWeight.bold),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  'Customer',
+                  style: GoogleFonts.roboto(
+                      textStyle: Appstyle(Colors.black, 18, FontWeight.bold)),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text.rich(
+                  TextSpan(
+                    text: "name: ",
+                    style: Appstyle(Colors.black, 12, FontWeight.w400),
+                    children: [
+                      TextSpan(
+                        text: vendorname,
+                        style: TextStyle(
+                          color: Colors.orange, // Thay đổi màu tùy ý ở đây
+                          fontSize: 14, // Điều chỉnh kích thước tùy ý
+                          fontWeight:
+                              FontWeight.w400, // Điều chỉnh độ đậm tùy ý
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Text.rich(
+                  TextSpan(
+                    text: "email: ",
+                    style: Appstyle(Colors.black, 12, FontWeight.w400),
+                    children: [
+                      TextSpan(
+                        text: vendoremail,
+                        style: TextStyle(
+                          color: Colors.orange, // Thay đổi màu tùy ý ở đây
+                          fontSize: 14, // Điều chỉnh kích thước tùy ý
+                          fontWeight:
+                              FontWeight.w400, // Điều chỉnh độ đậm tùy ý
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           ListTile(
@@ -119,11 +172,12 @@ class _PersonPageState extends State<PersonPage> {
             leading: Icon(
               Ionicons.cart_sharp,
               size: 30,
-              color: Colors.red,
+              color: Colors.orange,
             ),
             title: Text(
               'Status',
-              style: Appstyle(Colors.black, 20, FontWeight.bold),
+              style: GoogleFonts.roboto(
+                  textStyle: Appstyle(Colors.black, 18, FontWeight.bold)),
             ),
           ),
           ListTile(
@@ -133,10 +187,17 @@ class _PersonPageState extends State<PersonPage> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text(LogOut),
+                      title: Text(
+                        LogOut,
+                        style: GoogleFonts.roboto(
+                            textStyle:
+                                Appstyle(Colors.red, 28, FontWeight.bold)),
+                      ),
                       content: Text(
                         'You are sure you want to logout?',
-                        style: Appstyle(Colors.black, 20, FontWeight.bold),
+                        style: GoogleFonts.roboto(
+                            textStyle:
+                                Appstyle(Colors.orange, 18, FontWeight.bold)),
                       ),
                       actions: [
                         IconButton(
@@ -165,11 +226,12 @@ class _PersonPageState extends State<PersonPage> {
             },
             title: Text(
               LogOut,
-              style: Appstyle(Colors.black, 20, FontWeight.bold),
+              style: GoogleFonts.roboto(
+                  textStyle: Appstyle(Colors.black, 18, FontWeight.bold)),
             ),
             leading: Icon(
               Ionicons.exit_outline,
-              color: Colors.red,
+              color: Colors.orange,
               size: 30,
             ),
           ),

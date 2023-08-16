@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:vendor/share/constants.dart';
 
 enum OrderStatus {
@@ -81,57 +82,51 @@ class _OderPageState extends State<OderPage> {
                       children: [
                         Card(
                           margin: const EdgeInsets.all(10),
-                          color: Colors.grey[300],
+                          color: Colors.orange[100],
                           child: Column(
                             children: [
                               Row(
                                 children: [
                                   Container(
-                                    height: 180,
+                                    width: width * 0.2,
+                                    height: height * 0.1,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Image.network(urloder!),
+                                      child: Container(
+                                          constraints: BoxConstraints(
+                                              maxHeight: height * 0.5,
+                                              maxWidth: width * 0.2),
+                                          child: Image.network(urloder!)),
                                     ),
                                   ),
-                                  SizedBox(width: 10),
+                                  SizedBox(width: 8),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Customer: $nameuser",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
+                                        style: GoogleFonts.roboto(
+                                            textStyle: Appstyle(Colors.black,
+                                                14, FontWeight.normal)),
                                       ),
                                       Text(
-                                        'Email: $emailcustomer',
-                                        style: TextStyle(
-                                            color: Colors.blue,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w400),
+                                        'product name:$productname1',
+                                        style: GoogleFonts.roboto(
+                                            textStyle: Appstyle(Colors.black,
+                                                14, FontWeight.normal)),
                                       ),
                                       Text(
-                                        '$productname1',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      Text(
-                                        "SL $quantity",
-                                        style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
+                                        "quantity: $quantity",
+                                        style: GoogleFonts.roboto(
+                                            textStyle: Appstyle(Colors.blue, 14,
+                                                FontWeight.normal)),
                                       ),
                                       Text(
                                         '\$$price',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.normal),
+                                        style: GoogleFonts.roboto(
+                                            textStyle: Appstyle(Colors.red, 14,
+                                                FontWeight.normal)),
                                       ),
                                     ],
                                   ),
@@ -143,7 +138,7 @@ class _OderPageState extends State<OderPage> {
                                 children: [
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary: Colors.orange),
+                                        primary: Colors.blue),
                                     onPressed: () {
                                       _confirmOrder(documentSnapshot.id);
                                     },
